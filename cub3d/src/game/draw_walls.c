@@ -38,12 +38,15 @@ void draw_walls(t_game *game)
 	int tx;
 	int ty;
 	ty = -1;
-	while (++ty < HEIGHT)
-	{
-		tx = -1;
-		while (++tx < WIDTH)
-			ft_pixel_put(&game->img, tx, ty, game->buffer[ty][tx]);
-	}
+	// while (++ty < HEIGHT)
+	// {
+	// 	tx = -1;
+	// 	while (++tx < WIDTH)
+	// 	{
+	// 		if (game->buffer[ty][tx] != 0xFF000000)
+	// 			ft_pixel_put(&game->img, tx, ty, game->buffer[ty][tx]);
+	// 	}
+	// }
 	ty = -1;
 	// while (++ty < HEIGHT)
 	// {

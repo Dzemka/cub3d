@@ -10,8 +10,8 @@
 #include "keycodes.h"
 #include <parser.h>
 
-#define WIDTH 640
-#define HEIGHT 480
+#define WIDTH 1920
+#define HEIGHT 1080
 #define TEX_WIDTH 64
 #define TEX_HEIGHT 64
 

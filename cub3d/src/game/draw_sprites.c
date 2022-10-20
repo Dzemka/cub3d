@@ -54,7 +54,7 @@ void draw_sprites(t_game *game)
 	// translate sprite position relative camera
 
 	// do order
-	fill_coord(game->sprite[0]->pos.y - game->player.pos.y, game->sprite[0]->pos.x - game->player.pos.x, &sprite);
+	fill_coord(game->sprite[0]->pos.y - game->player.pos.y, game->sprite[0]->pos.x - game->player.pos.x, &sprite); // coordinate ratio player
 	// do order
 
 	//[plane.x dir.x] -1												[dir.y 	   -dir.x]
@@ -70,7 +70,10 @@ void draw_sprites(t_game *game)
 	//[sprite.y ]		[-plane.y	plane.x	]
 	transform.x = inv_det * (game->player.dir.y * sprite.x - game->player.dir.x * sprite.y);
 	transform.y = inv_det * ((game->player.plane.y * -1) * sprite.x + game->player.plane.x * sprite.y);
+	printf("origin : %f %f\n", game->player.plane.x + game->player.dir.x, game->player.plane.y + game->player.dir.y);
+	printf("transform %f %f\n", transform.x, transform.y);
 	sprite_screen_x = (int)((WIDTH / 2) * (1.0 + transform.x / transform.y));
+	printf("screen %d\n", sprite_screen_x);
 	sprite_height = abs((int)((double)HEIGHT / (transform.y)));
 	drawStartY = -sprite_height / 2 + HEIGHT / 2;
 	drawEndY = sprite_height / 2 + HEIGHT / 2;
@@ -97,7 +100,8 @@ void draw_sprites(t_game *game)
 				d = (y)*256 - HEIGHT * 128 + sprite_height * 128;
 				texY = ((d * TEX_HEIGHT) / sprite_height) / 256;
 				color = game->sprite_tex[0][texY][texX];
-				game->buffer[y][stripe] = color;
+				if (color != 16777216)
+					game->buffer[y][stripe] = color;
 				y++;
 			}
 		}
@@ -110,8 +114,7 @@ void draw_sprites(t_game *game)
 		x = -1;
 		while (++x < WIDTH)
 		{
-			if (game->buffer[y][x] != 16777216)
-				ft_pixel_put(&game->img, x, y, game->buffer[y][x]);
+			ft_pixel_put(&game->img, x, y, game->buffer[y][x]);
 		}
 	}
 }

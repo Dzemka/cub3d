@@ -11,18 +11,8 @@ void get_ray_dir(t_coord *rayDir, int x, t_game *game)
 
 void get_delta_dist(t_coord *deltaDist, t_coord rayDir)
 {
-	double len_vector;
-
-	len_vector = sqrt(rayDir.x * rayDir.x + rayDir.y * rayDir.y);
-
-	if (rayDir.x != 1)
-			deltaDist->x = fabs(1 / rayDir.x);
-	else
-		deltaDist->x = 1e30;
-	if (rayDir.y != 0)
-			deltaDist->y = fabs(1 / rayDir.y);
-	else
-		deltaDist->y = 1e30;
+	deltaDist->x = fabs(1 / rayDir.x);
+	deltaDist->y = fabs(1 / rayDir.y);
 }
 
 void get_side_dist(t_ray *ray, t_game *game)
@@ -79,10 +69,10 @@ void find_wall(t_ray *ray, char **map)
 
 void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 {
-	t_ray	ray;
-	double	perpWallDist;
-	int		line_height;
-	char	c;
+	t_ray ray;
+	double perpWallDist;
+	int line_height;
+	char c;
 
 	ray.test = 0;
 	get_ray_dir(&ray.dir, x, game);
@@ -127,8 +117,8 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 		int texY = (int)tex_pos & (int)(TEX_HEIGHT - 1);
 		tex_pos += step;
 		game->buffer[t][x] = game->texture[texNum][texY][texX]; //сделать чтобы использовались текстуры разных разрешений
-		// if (ray.side == 0)
-			// game->wall_color = (game->wall_color >> 1) & 8355711;
+																// if (ray.side == 0)
+																// game->wall_color = (game->wall_color >> 1) & 8355711;
 	}
 	game->zBuffer[x] = perpWallDist;
 	// test

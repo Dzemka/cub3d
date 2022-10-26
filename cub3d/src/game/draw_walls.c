@@ -33,8 +33,10 @@ void draw_walls(t_game *game)
 	int drawEnd;
 
 	x = -1;
+
 	while (++x < WIDTH)
 		get_verline(x, game, &drawStart, &drawEnd);
+	
 	int tx;
 	int ty;
 	ty = -1;

@@ -102,5 +102,10 @@ t_game *game_init(int argc, char **argv)
 		return(game_clean(&game));
 	if (get_sprites(game) == 1)
 		return(game_clean(&game));
+
+	//test
+	game->pitch = 0;
+	game->posZ = 0;
+	//test
 	return (game);
 }

@@ -105,7 +105,7 @@ int get_sprites(t_game *game)
 
 	game->sprite_img = malloc(sizeof(t_data_img *) * (2 + 1));
 
-	char str[2][50] = {{"./textures/barrel.xpm"}, {"./textures/pillar.xpm"}};
+	char str[2][50] = {{"./textures/greenlight.xpm"}, {"./textures/pillar.xpm"}};
 	tex_id = -1;
 	while (++tex_id < 2)
 	{

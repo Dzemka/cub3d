@@ -10,8 +10,8 @@
 #include "keycodes.h"
 #include <parser.h>
 
-#define WIDTH 1920
-#define HEIGHT 1080
+#define WIDTH 640
+#define HEIGHT 480
 #define TEX_WIDTH 64
 #define TEX_HEIGHT 64
 
@@ -94,6 +94,8 @@ typedef struct s_game
 	t_data_img		**sprite_img;
 	//test
 	t_tid			**tid;
+	double			pitch;
+	double			posZ;
 	//test
 } t_game;
 

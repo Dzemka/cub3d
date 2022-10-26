@@ -74,6 +74,9 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	int line_height;
 	char c;
 
+	//test
+	//test
+
 	ray.test = 0;
 	get_ray_dir(&ray.dir, x, game);
 	get_delta_dist(&ray.deltaDist, ray.dir);
@@ -85,10 +88,10 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	else
 		perpWallDist = ray.sideDist.y - ray.deltaDist.y;
 	line_height = (int)(HEIGHT / perpWallDist);
-	*drawStart = HEIGHT / 2 - line_height / 2;
+	*drawStart = HEIGHT / 2 - line_height / 2 + game->pitch + (game->posZ / perpWallDist);
 	if (*drawStart < 0)
 		*drawStart = 0;
-	*drawEnd = HEIGHT / 2 + line_height / 2;
+	*drawEnd = HEIGHT / 2 + line_height / 2 + game->pitch + (game->posZ / perpWallDist);
 	if (*drawEnd >= HEIGHT)
 		*drawEnd = HEIGHT - 1;
 	c = game->map->map_grid[(int)ray.map.y][(int)ray.map.x];
@@ -109,7 +112,7 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	if (ray.side == 1 & ray.dir.y < 0)
 		texX = TEX_WIDTH - texX - 1;
 	double step = 1.0 * TEX_HEIGHT / line_height;
-	double tex_pos = (*drawStart - HEIGHT / 2 + line_height / 2) * step;
+	double tex_pos = (*drawStart - game->pitch - (game->posZ / perpWallDist) - HEIGHT / 2 + line_height / 2) * step;
 	int t;
 	t = *drawStart - 1;
 	while (++t < *drawEnd)
@@ -120,6 +123,7 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 																// if (ray.side == 0)
 																// game->wall_color = (game->wall_color >> 1) & 8355711;
 	}
+
 	game->zBuffer[x] = perpWallDist;
 	// test
 }

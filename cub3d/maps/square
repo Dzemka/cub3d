@@ -1,7 +1,7 @@
 NO ./textures/greystone.xpm
-SO ./textures/mnstr.xpm
-WE ./textures/stch.xpm
-EA ./textures/greystone.xpm
+SO ./textures/purplestone.xpm
+WE ./textures/redbrick.xpm
+EA ./textures/mossy.xpm
 
 F 127,0,127
 C 0,127,127

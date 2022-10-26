@@ -37,7 +37,7 @@ void draw_sprites(t_game *game)
 	int drawEndY;
 
 	int texX;
-	int texY;
+	double texY;
 	int y;
 
 	int stripe;
@@ -49,10 +49,11 @@ void draw_sprites(t_game *game)
 	fill_coord(3.5, 12.5, &game->sprite[0]->pos);
 	fill_coord(5.5, 10.5, &game->sprite[1]->pos);
 	i = -1;
-
+	double step_y;
+	double start_y;
 	while (++i < 2)
 	{
-	sprite_dist[i] = (game->player.pos.x - game->sprite[i]->pos.x) * (game->player.pos.x - game->sprite[i]->pos.x) + (game->player.pos.y - game->sprite[i]->pos.y) * (game->player.pos.y - game->sprite[i]->pos.y);
+		sprite_dist[i] = (game->player.pos.x - game->sprite[i]->pos.x) * (game->player.pos.x - game->sprite[i]->pos.x) + (game->player.pos.y - game->sprite[i]->pos.y) * (game->player.pos.y - game->sprite[i]->pos.y);
 
 		// translate sprite position relative camera
 
@@ -65,7 +66,7 @@ void draw_sprites(t_game *game)
 		//[plane.y dir.y]													[-plane.y plane.x]
 		// determinant matrix
 
-		printf("matrix x: %f %f\nmartix y: %f %f\n", game->player.plane.x, game->player.dir.x, game->player.plane.y, game->player.dir.y);
+		// printf("matrix x: %f %f\nmartix y: %f %f\n", game->player.plane.x, game->player.dir.x, game->player.plane.y, game->player.dir.y);
 		inv_det = 1.0 / (game->player.plane.x * game->player.dir.y - game->player.dir.x * game->player.plane.y);
 		// matrix * vector
 		//[sprite.x	]		[dir.y		-dir.x	]
@@ -84,7 +85,7 @@ void draw_sprites(t_game *game)
 		if (drawEndY >= HEIGHT)
 			drawEndY = HEIGHT - 1;
 		sprite_width = abs((int)(HEIGHT / (transform.y))); // width of sprite on monitor plane
-		printf("%d\n", sprite_height);
+		// printf("%d\n", sprite_height);
 		drawStartX = -sprite_width / 2 + sprite_screen_x;
 		drawEndX = sprite_width / 2 + sprite_screen_x;
 		if (drawStartX < 0)
@@ -92,23 +93,34 @@ void draw_sprites(t_game *game)
 		if (drawEndX >= WIDTH)
 			drawEndX = WIDTH - 1;
 		stripe = drawStartX;
-		while (stripe < drawEndX)
+		step_y = (double)(TEX_HEIGHT - 1) / (double)sprite_height;
+
+		start_y = 0;
+		if (sprite_height > HEIGHT)
+			start_y = ((sprite_height - HEIGHT) / 2) * step_y;
+		if (stripe < WIDTH && stripe >= 0)
 		{
-			texX = (int)((stripe - (sprite_screen_x - sprite_width / 2)) * TEX_WIDTH / sprite_width);
-			if (transform.y > 0 && stripe > 0 && stripe < WIDTH && transform.y < game->zBuffer[stripe])
+			while (stripe < drawEndX)
 			{
-				y = drawStartY;
-				while (y < drawEndY)
+				texY = start_y;
+
+				if (transform.y > 0 && stripe > 0 && stripe < WIDTH && transform.y < game->zBuffer[stripe])
 				{
-					d = (y) * 2 - HEIGHT + sprite_height;
-					texY = ((d * TEX_HEIGHT) / sprite_height) / 2;
-					color = game->sprite_tex[i][texY][texX];
-					if (color != 16777216)
-						game->buffer[y][stripe] = color;
-					y++;
+					texX = (int)((stripe - (sprite_screen_x - sprite_width / 2)) * TEX_WIDTH / sprite_width);
+					y = drawStartY;
+					while (y < drawEndY)
+					{
+						// d = (y) * 2 - HEIGHT + sprite_height;
+						// texY = ((d * TEX_HEIGHT) / sprite_height) / 2;
+						color = game->sprite_tex[i][(int)texY][texX];
+						if (color != 16777216)
+							game->buffer[y][stripe] = color;
+						y++;
+						texY += step_y;
+					}
 				}
+				stripe++;
 			}
-			stripe++;
 		}
 	}
 	y = -1;

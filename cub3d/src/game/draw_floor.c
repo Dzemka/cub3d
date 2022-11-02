@@ -54,7 +54,7 @@ void draw_floor(t_game *game)
 		// min = 0;
 		while (++x < WIDTH)
 		{
-			if (y < HEIGHT / 2)
+			if (y < HEIGHT / 2 + game->pitch)
 				game->buffer[y][x] = game->map->ceiling_color;
 			else
 				game->buffer[y][x] = game->map->floor_color;

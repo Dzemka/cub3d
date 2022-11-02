@@ -21,8 +21,9 @@
 
 #FILES
 	SRC	=	cub3d.c \
-			cub3d_utils.c \
-			initializer.c \
+			init_memory.c \
+			init_values.c \
+			get_textures.c \
 			cleaner.c \
 			parse_map.c \
 			parse_textures.c \

@@ -55,7 +55,7 @@ int move(int keycode, void *arg)
 		if (game->map->map_grid[(int)game->player.pos.y][(int)(game->player.pos.x + move_dir_x * move_speed + move_dir_x * 0.1)] == '0')
 			game->player.pos.x += move_dir_x * move_speed;
 		if (game->map->map_grid[(int)(game->player.pos.y + move_dir_y * move_speed + move_dir_y * 0.1)][(int)game->player.pos.x] == '0')
-			game->player.pos.y += move_dir_y * move_speed;		
+			game->player.pos.y += move_dir_y * move_speed;
 	}
 	if (keycode == KEY_DOWN)
 	{
@@ -71,15 +71,45 @@ int move(int keycode, void *arg)
 			game->pitch = 400;
 		// game->posZ = -200;
 	}
-	// draw_basic(game);
-	// draw_floor(game);
-	// draw_walls(game);
-	// draw_sprites(game);
 	game_start(game);
-	// mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
+}
+
+int mouse_move(int x, int y, t_game *game)
+{
+	double move_dir_x;
+	double move_dir_y;
+	double move_speed;
+	double rotate_speed;
+	double	oldDirX;
+	double	oldPlaneX;
+
+	rotate_speed = 0;
+	move_speed = 0.01;
+	if (x < WIDTH / 2)
+		rotate_speed = 0.01;
+	if (x > WIDTH / 2)
+		rotate_speed = -0.01;
+	if (y > HEIGHT / 2)
+		game->pitch -= 400 * move_speed;
+	if (game->pitch < -400)
+		game->pitch = -400;
+	if (y  < HEIGHT / 2)
+		game->pitch += 400 * move_speed;
+	if (game->pitch > 400)
+		game->pitch = 400;
+	oldDirX = game->player.dir.x;
+	game->player.dir.x = game->player.dir.x * cos(-rotate_speed) - game->player.dir.y * sin(-rotate_speed);
+	game->player.dir.y = oldDirX * sin(-rotate_speed) + game->player.dir.y * cos(-rotate_speed);
+	oldPlaneX = game->player.plane.x;
+	game->player.plane.x = game->player.plane.x * cos(-rotate_speed) - game->player.plane.y * sin(-rotate_speed);
+	game->player.plane.y = oldPlaneX * sin(-rotate_speed) + game->player.plane.y * cos(-rotate_speed);
+	mlx_mouse_move(game->mlx, game->window, WIDTH / 2, HEIGHT / 2);
+
 }
 
 void hooks(t_game *game)
 {
+	mlx_hook(game->window, 6, 1L << 6, &mouse_move, game);
 	mlx_hook(game->window, 2, 1L << 0, &move, game);
+	mlx_loop_hook(game->mlx, game_start, game);
 }

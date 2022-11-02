@@ -68,11 +68,10 @@ void clean_tex_img(t_game *game)
 		mlx_destroy_image(game->mlx, game->tex_img[i]->img);
 }
 
-void *game_clean(t_game **game)
+void game_clean(t_game **game)
 {
 	if ((*game)->map)
 		cleaning_map(&(*game)->map);
-
 	//problem
 	exit(1);
 	if ((*game)->buffer)
@@ -84,5 +83,4 @@ void *game_clean(t_game **game)
 	if ((*game)->tex_img)
 		clean_tex_img(*game);
 	exit(1);
-	return (NULL);
 }

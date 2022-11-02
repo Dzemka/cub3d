@@ -12,15 +12,21 @@
 # define SO_TEXTURE 1
 # define WE_TEXTURE 2
 # define EA_TEXTURE 3
-# define FLOOR_COLOR 5
-# define CEILLING_COLOR 6
+# define S0 4
+# define S1 5
+# define S2 6
+# define S3 7
+# define S4 8
+# define S5 9
+# define S6 10
+# define S7 11
+
+# define FLOOR_COLOR 14
+# define CEILLING_COLOR 15
+
 //===================
 # define RED_INDEX 0
 # define GREEN_INDEX 1
 # define BLUE_INDEX 2
-# define RIGHT 2
-# define LEFT 3
-# define UP 4
-# define DOWN 5
 
 #endif

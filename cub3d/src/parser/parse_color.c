@@ -71,7 +71,7 @@ static int set_color(char *s, int i, int *color, int ambient_id)
 		return (parse_error_message("no separator\n", ambient_id));
 	while (s[i] == ' ' || s[i] == '\0')
 		i++;
-	if (s[i] == '\0')
+	if (s[i - 1] == '\0')
 		return (parse_error_message("color not found\n", ambient_id));
 	if (check_rgb(s, i, ambient_id) == 1)
 		return (1);
@@ -83,9 +83,9 @@ static int set_color(char *s, int i, int *color, int ambient_id)
 
 int parse_color(char *s, int i, t_map *map)
 {
-	if (s[i] == 'F' && s[i + 1] == ' ')
+	if (s[i] == 'F')
 		return (set_color(s, i + 1, &map->floor_color, FLOOR_COLOR));
-	if (s[i] == 'C' && s[i + 1] == ' ')
+	if (s[i] == 'C')
 		return (set_color(s, i + 1, &map->ceiling_color, CEILLING_COLOR));
 	else
 		return (-1);

@@ -43,8 +43,8 @@ void find_wall(t_ray *ray, char **map)
 {
 	int hit;
 	int count;
-	count = 0;
 
+	count = 0;
 	hit = 0;
 	while (hit == 0)
 	{
@@ -60,7 +60,7 @@ void find_wall(t_ray *ray, char **map)
 			ray->map.y += ray->step.y;
 			ray->side = 1;
 		}
-		if (map[(int)ray->map.y][(int)ray->map.x] != '0')
+		if (map[(int)ray->map.y][(int)ray->map.x] == '1')
 			hit = 1;
 		count++;
 	}
@@ -72,10 +72,6 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	t_ray ray;
 	double perpWallDist;
 	int line_height;
-	char c;
-
-	//test
-	//test
 
 	ray.test = 0;
 	get_ray_dir(&ray.dir, x, game);
@@ -94,15 +90,28 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	*drawEnd = HEIGHT / 2 + line_height / 2 + game->pitch + (game->posZ / perpWallDist);
 	if (*drawEnd >= HEIGHT)
 		*drawEnd = HEIGHT - 1;
-	c = game->map->map_grid[(int)ray.map.y][(int)ray.map.x];
 
 	// test
 	double wallX;
-	int texNum = c - 48 - 1; // number wall id - char to int
+	int texNum = 0; // number wall id - char to int
 	if (ray.side == 0)
 		wallX = game->player.pos.y + perpWallDist * ray.dir.y;
 	else
 		wallX = game->player.pos.x + perpWallDist * ray.dir.x;
+	if (ray.side == 0)
+	{
+		if (ray.dir.x < 0)
+			texNum = 2;
+		else
+			texNum = 3;
+	}
+	else
+	{
+		if (ray.dir.y < 0)
+			texNum = 0;
+		else
+			texNum = 1;
+	}
 	wallX -= floor(wallX);
 	int texX;
 
@@ -123,7 +132,6 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 																// if (ray.side == 0)
 																// game->wall_color = (game->wall_color >> 1) & 8355711;
 	}
-
 	game->zBuffer[x] = perpWallDist;
 	// test
 }

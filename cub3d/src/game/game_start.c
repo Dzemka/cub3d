@@ -24,7 +24,7 @@ void ft_pixel_put(t_data_img *data, int x, int y, int color)
 // 	}
 // }
 
-void game_start(t_game *game)
+int game_start(t_game *game)
 {
 	int	x;
 	int y;
@@ -33,8 +33,8 @@ void game_start(t_game *game)
 
 	draw_floor(game);
 	draw_walls(game);
-	
-	draw_sprites(game);
+	// draw_sprites(game);
+
 	y = -1;
 	while (++y < HEIGHT)
 	{

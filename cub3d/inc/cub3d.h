@@ -15,7 +15,8 @@
 #define HEIGHT 1080
 #define TEX_WIDTH 64
 #define TEX_HEIGHT 64
-#define TEX_COUNT 13
+#define TEX_COUNT 12
+#define SPRITE_COUNT 9
 
 typedef struct s_data_img
 {
@@ -54,9 +55,10 @@ typedef struct s_ray
 
 typedef struct s_sprite
 {
-	// t_coord	pos;
-	t_list	*pos;
-	int		tex_id;
+	t_coord	coord;
+	int		id;
+	int		order;
+	double	distance;
 } t_sprite;
 
 typedef struct s_map
@@ -73,6 +75,7 @@ typedef struct s_map
 	size_t	height;
 	t_coord	player_p;
 	char	player_orientation;
+	int		sprite_count;
 }	t_map;
 
 typedef struct s_tid
@@ -95,7 +98,7 @@ typedef struct s_game
 	t_data_img		**tex_img;
 	int				tex_count;
 	t_sprite		**sprite;
-	int				*zBuffer;
+	double			*zBuffer;
 	int				***sprite_tex;
 	t_data_img		**sprite_img;
 	//test
@@ -122,6 +125,7 @@ void	hooks(t_game *game);
 
 int		init_memory(t_game *game);
 int		init_values(int argc, char **argv, t_game *game);
+int		scan_x(int x, int y, t_map *map, int *sprite_index);
 // int		init_map(t_map **map, int argc, char **argv);
 // void	player_init(t_game *game);
 // int		init_graphic(t_game *game);

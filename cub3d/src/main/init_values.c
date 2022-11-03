@@ -67,6 +67,4 @@ int init_values(int argc, char **argv, t_game *game)
         game_clean(&game);
     if (get_textures(game) == 1)
         game_clean(&game);
-    printf("he\n");
-
 }

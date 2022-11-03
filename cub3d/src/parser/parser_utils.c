@@ -35,4 +35,5 @@ void	init_map_values(t_map *map)
 	map->map_base = NULL;
 	map->width = 0;
 	map->player_orientation = '\0';
+	map->sprite_count = 0;
 }

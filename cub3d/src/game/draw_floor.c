@@ -2,45 +2,45 @@
 
 void draw_floor(t_game *game)
 {
-	t_coord ray_left;
-	t_coord ray_right;
+	// t_coord ray_left;
+	// t_coord ray_right;
 
 	int y;
 	y = -1;
 
-	double posZ;
+	// double posZ;
 
-	int p;
+	// int p;
 
-	double rowDist;
+	// double rowDist;
 
 	int x;
 
-	t_coord floorStep;
-	t_coord floor;
+	// t_coord floorStep;
+	// t_coord floor;
 
-	int cellX;
-	int cellY;
+	// int cellX;
+	// int cellY;
 
-	int tx;
-	int ty;
+	// int tx;
+	// int ty;
 
-	int floor_tex;
-	int ceil_tex;
+	// int floor_tex;
+	// int ceil_tex;
 
-	int color;
+	// int color;
 
-	double weight;
-	fill_coord(game->player.dir.y - game->player.plane.y, game->player.dir.x - game->player.plane.x, &ray_left);  // ray for leftmost
-	fill_coord(game->player.dir.y + game->player.plane.y, game->player.dir.x + game->player.plane.x, &ray_right); // ray for rightmos
-	int half_height;
+	// double weight;
+	// fill_coord(game->player.dir.y - game->player.plane.y, game->player.dir.x - game->player.plane.x, &ray_left);  // ray for leftmost
+	// fill_coord(game->player.dir.y + game->player.plane.y, game->player.dir.x + game->player.plane.x, &ray_right); // ray for rightmos
+	// int half_height;
 
-	half_height = HEIGHT / 2;
-	posZ = half_height; // center_camera 540
-	double interpolate_y;
-	double interpolate_x;
-	interpolate_y = (ray_right.y - ray_left.y) / WIDTH;
-	interpolate_x = (ray_right.x - ray_left.x) / WIDTH;
+	// half_height = HEIGHT / 2;
+	// posZ = half_height; // center_camera 540
+	// double interpolate_y;
+	// double interpolate_x;
+	// interpolate_y = (ray_right.y - ray_left.y) / WIDTH;
+	// interpolate_x = (ray_right.x - ray_left.x) / WIDTH;
 	y = -1;
 	while (++y < HEIGHT)
 	{

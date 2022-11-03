@@ -26,6 +26,7 @@
 			get_textures.c \
 			cleaner.c \
 			parse_map.c \
+			parse_x.c \
 			parse_textures.c \
 			parse_color.c \
 			parse_grid.c \

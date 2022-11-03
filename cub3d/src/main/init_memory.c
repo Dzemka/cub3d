@@ -28,26 +28,6 @@ static int init_buffer(t_game *game)
 	game->buffer[y + 1] = NULL;
 }
 
-static int init_sprites(t_game *game)
-{
-	int i;
-
-	game->sprite = malloc(sizeof(t_sprite *) * 9);
-	if (!game->sprite)
-		return (1);
-	i = -1;
-	while (++i < 9)
-	{
-		game->sprite[i] = malloc(sizeof(t_sprite *));
-		if (!game->sprite[i])
-			return (1);
-	}
-	game->zBuffer = malloc(sizeof(int) * WIDTH);
-	if (!game->zBuffer)
-		return (1);
-	return (0);
-}
-
 static int init_textures(t_game *game)
 {
 	int tex_id;
@@ -72,8 +52,6 @@ int init_memory(t_game *game)
 	if (init_buffer(game) == 1)
 		game_clean(&game);
 	if (init_textures(game) == 1)
-		game_clean(&game);
-	if (init_sprites(game) == 1)
 		game_clean(&game);
 	game->map = malloc(sizeof(t_map));
 	if (!game->map)

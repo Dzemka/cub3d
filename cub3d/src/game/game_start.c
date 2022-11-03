@@ -41,7 +41,7 @@ int game_start(t_game *game)
 		x = -1;
 		while (++x < WIDTH)
 			ft_pixel_put(&game->img, x, y, game->buffer[y][x]);
-		
+
 	}
 	mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
 

@@ -10,9 +10,9 @@ static void set_color(char *addr, int *color)
 
 static int fill_texture(int tex_id, t_game *game)
 {
-    int         x;
-    int         y;
-    t_data_img  *img;
+    int x;
+    int y;
+    t_data_img *img;
 
     img = game->tex_img[tex_id];
     y = -1;
@@ -20,7 +20,6 @@ static int fill_texture(int tex_id, t_game *game)
     game->texture[tex_id][img->height] = NULL;
     while (++y < img->height)
     {
-        //ALLOCATED MEMORY FOR TEXTURE MASSIVE
         game->texture[tex_id][y] = malloc(sizeof(char *) * (img->width + 1));
         game->texture[tex_id][y][img->width] = '\0';
         x = -1;
@@ -32,10 +31,10 @@ static int fill_texture(int tex_id, t_game *game)
 
 int get_textures(t_game *game)
 {
-    int         y;
-    int         tex_id;
-    char        *path;
-    t_data_img  *img;
+    int y;
+    int tex_id;
+    char *path;
+    t_data_img *img;
 
     tex_id = -1;
 
@@ -52,7 +51,9 @@ int get_textures(t_game *game)
         if (!img->addr)
             return (1);
         if (fill_texture(tex_id, game) == 1)
+        {
             return (1);
+        }
     }
     return (0);
 }

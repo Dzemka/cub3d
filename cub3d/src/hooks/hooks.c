@@ -15,7 +15,7 @@ int move(int keycode, void *arg)
 	game = (t_game *)arg;
 	if (keycode == KEY_ESC)
 	{
-		game_clean(&game);
+		// game_clean(&game);
 		exit(1);
 	}
 	if (keycode == KEY_W)
@@ -84,11 +84,11 @@ int mouse_move(int x, int y, t_game *game)
 	double	oldPlaneX;
 
 	rotate_speed = 0;
-	move_speed = 0.01;
+	move_speed = 0.09;
 	if (x < WIDTH / 2)
-		rotate_speed = 0.01;
+		rotate_speed = 0.05;
 	if (x > WIDTH / 2)
-		rotate_speed = -0.01;
+		rotate_speed = -0.05;
 	if (y > HEIGHT / 2)
 		game->pitch -= 400 * move_speed;
 	if (game->pitch < -400)
@@ -103,8 +103,7 @@ int mouse_move(int x, int y, t_game *game)
 	oldPlaneX = game->player.plane.x;
 	game->player.plane.x = game->player.plane.x * cos(-rotate_speed) - game->player.plane.y * sin(-rotate_speed);
 	game->player.plane.y = oldPlaneX * sin(-rotate_speed) + game->player.plane.y * cos(-rotate_speed);
-	mlx_mouse_move(game->mlx, game->window, WIDTH / 2, HEIGHT / 2);
-
+	mlx_mouse_move(game->window, WIDTH / 2, HEIGHT / 2);
 }
 
 void hooks(t_game *game)

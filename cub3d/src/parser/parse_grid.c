@@ -35,7 +35,7 @@ int	get_sprite_coord(int x, int y, t_map *map)
 	coord->x = x + 0.5;
 	coord->y = y + 0.5;
 	pos = ft_lstnew(coord);
-	tex_id = game->map->map_grid[y][x] - 48;
+	tex_id = game->map->map_grid[y][x] - 48 - 2;
 	ft_lstadd_back(&game->sprite[tex_id]->pos, pos);
 }
 

@@ -33,7 +33,7 @@ int game_start(t_game *game)
 
 	draw_floor(game);
 	draw_walls(game);
-	// draw_sprites(game);
+	draw_sprites(game);
 
 	y = -1;
 	while (++y < HEIGHT)

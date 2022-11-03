@@ -17,7 +17,6 @@ t_game *game_init(int argc, char **argv)
 	}
 	//new
 	init_memory(game);
-	printf("ses\n");
 	init_values(argc, argv, game);
 	//new
 	// test
@@ -32,6 +31,12 @@ int main(int argc, char **argv)
 	t_game *game;
 
 	game = game_init(argc, argv);
+	// t_list *list;
+	// t_coord *coord;
+
+	// list = game->sprite[1]->pos;
+	// coord = list->content;
+	// printf("%f %f\n", coord->x, coord->y);
 	mlx_mouse_hide(game->mlx, game->window);
 	mlx_mouse_move(game->mlx, game->window, WIDTH / 2, HEIGHT / 2);
 	game_start(game);

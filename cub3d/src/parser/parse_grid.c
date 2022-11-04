@@ -47,7 +47,7 @@ static int fill_massive(t_map *map)
 			return (1);
 		line_ptr = line_ptr->next;
 	}
-	map->map_grid[y] = NULL;
+	map->map_grid[y] = NULL;	
 	return (0);
 }
 
@@ -77,10 +77,10 @@ int init_sprites(t_game *game)
 
 int copy_grid(t_map *map)
 {
+	map->height = ft_lstsize(map->grid_ptr);
 	map->map_grid = malloc(sizeof(char *) * (map->height + 1));
 	if (!map->map_grid)
 		return (1);
-	map->height = ft_lstsize(map->grid_ptr);
 	if (fill_massive(map) == 1)
 		return (1);
 	if (init_sprites(map->game) == 1)

@@ -70,10 +70,10 @@ void clean_tex_img(t_game *game)
 
 void game_clean(t_game **game)
 {
+	// exit(1);
 	if ((*game)->map)
 		cleaning_map(&(*game)->map);
 	//problem
-	exit(1);
 	if ((*game)->buffer)
 		clean_massive((void ***)&(*game)->buffer);
 	//problem

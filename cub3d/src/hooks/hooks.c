@@ -15,8 +15,8 @@ int move(int keycode, void *arg)
 	game = (t_game *)arg;
 	if (keycode == KEY_ESC)
 	{
-		// game_clean(&game);
 		exit(1);
+		game_clean(&game);
 	}
 	if (keycode == KEY_W)
 	{

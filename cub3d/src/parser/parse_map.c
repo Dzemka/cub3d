@@ -73,7 +73,6 @@ int parse_map(t_map *map, int fd)
 	}
 	if (copy_grid(map))
 		return (1);
-
 	if (map->player_orientation == '\0')
 		return (parse_error_message("No player\n", -1));
 	return (0);

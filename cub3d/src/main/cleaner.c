@@ -18,19 +18,19 @@ void clean_massive(void ***ptr)
 
 int cleaning_map(t_map **ptr)
 {
-	int row;
-	t_map *map;
+	// int row;
+	// t_map *map;
 
-	map = *ptr;
-	if (map->path_textures)
-		clean_massive((void ***)&map->path_textures);
-	if (map->map_grid)
-		clean_massive((void ***)&map->map_grid);
-	if (map->map_base)
-		ft_lstclear(&map->map_base, free);
-	free(map);
-	map = NULL;
-	return (1);
+	// map = *ptr;
+	// if (map->path_textures)
+	// 	clean_massive((void ***)&map->path_textures);
+	// if (map->map_grid)
+	// 	clean_massive((void ***)&map->map_grid);
+	// if (map->lineList)
+	// 	ft_lstclear(map->lineList, free);
+	// free(map);
+	// map = NULL;
+	// return (1);
 }
 
 void clean_textures(int ****tex)
@@ -70,17 +70,17 @@ void clean_tex_img(t_game *game)
 
 void game_clean(t_game **game)
 {
-	// exit(1);
-	if ((*game)->map)
-		cleaning_map(&(*game)->map);
-	//problem
-	if ((*game)->buffer)
-		clean_massive((void ***)&(*game)->buffer);
-	//problem
+	exit(1);
+	// if ((*game)->map)
+	// 	cleaning_map(&(*game)->map);
+	// //problem
+	// if ((*game)->buffer)
+	// 	clean_massive((void ***)&(*game)->buffer);
+	// //problem
 
-	if (((*game)->texture))
-		clean_textures(&(*game)->texture);
-	if ((*game)->tex_img)
-		clean_tex_img(*game);
+	// if (((*game)->texture))
+	// 	clean_textures(&(*game)->texture);
+	// if ((*game)->tex_img)
+	// 	clean_tex_img(*game);
 	exit(1);
 }

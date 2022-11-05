@@ -26,14 +26,3 @@ void	fill_coord(double y, double x, t_coord *pos)
 	pos->x = x;
 	pos->y = y;
 }
-
-void	init_map_values(t_map *map)
-{
-	map->floor_color = -1;
-	map->ceiling_color = -1;
-	map->map_grid = NULL;
-	map->map_base = NULL;
-	map->width = 0;
-	map->player_orientation = '\0';
-	map->sprite_count = 0;
-}

@@ -1,20 +1,12 @@
 #include <cub3d.h>
 
-static int init_map(t_map **map, int argc, char **argv)
+static void game_base_init(t_game *game)
 {
-    int map_fd;
-
-    map_fd = open(argv[1], O_RDONLY);
-    if (map_fd == -1)
-    {
-        perror(argv[1]);
-        return (1);
-    }
-    init_map_values(*map);
-    if (parse_map(*map, map_fd) == 1)
-        return (1);
-
-    return (0);
+	game->mlx = NULL;
+	game->window = NULL;
+	game->buffer = NULL;
+	game->texture = NULL;
+	game->tex_img = NULL;
 }
 
 static int get_graphic(t_game *game)
@@ -30,7 +22,24 @@ static int get_graphic(t_game *game)
     return (0);
 }
 
-static void player_init(t_game *game)
+static int init_buffer(t_game *game)
+{
+	int y;
+
+	y = -1;
+	game->buffer = malloc(sizeof(int *) * HEIGHT + 1);
+	if (!game->buffer)
+		game_exit("Malloc error\n");
+	while (++y < HEIGHT)
+	{
+		game->buffer[y] = malloc(sizeof(int *) * WIDTH);
+		if (!game->buffer[y])
+			game_exit("Malloc error\n");
+	}
+	game->buffer[y + 1] = NULL;
+}
+
+static void init_player(t_game *game)
 {
     if (game->map->player_orientation == 'N')
     {
@@ -57,14 +66,26 @@ static void player_init(t_game *game)
     game->map->map_grid[(int)game->map->player_p.y][(int)game->map->player_p.x] = '0';
 }
 
-int init_values(int argc, char **argv, t_game *game)
+t_game *init_game(int argc, char **argv)
 {
-    game->map->game = game;
-    if (init_map(&game->map, argc, argv) == 1)
-        game_clean(&game);
-    player_init(game);
-    if (get_graphic(game) == 1)
-        game_clean(&game);
-    if (get_textures(game) == 1)
-        game_clean(&game);
+	t_game *game;
+
+	if (argc != 2)
+		game_exit("The number of arguments must be equal to two");
+	game = malloc(sizeof(t_game));
+	if (!game)
+		game_exit("Malloc error\n");
+	game_base_init(game);
+	//new_new
+	get_graphic(game);
+	init_map(game, argc, argv);
+	init_textures(game);
+	init_buffer(game);
+	init_player(game);
+	//new_new
+	// test
+	game->pitch = 0;
+	game->posZ = 0;
+	// test
+	return (game);
 }

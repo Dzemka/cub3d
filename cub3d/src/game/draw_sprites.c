@@ -102,7 +102,7 @@ void draw_sprites(t_game *game)
 	int order;
 	int index;
 	i = -1;
-	// set_sprite_order(game);
+	set_sprite_order(game);
 	while (++i < game->map->sprite_count)
 	{
 		index = game->sprite[i]->id;

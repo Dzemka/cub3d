@@ -21,12 +21,13 @@
 
 #FILES
 	SRC	=	cub3d.c \
-			init_memory.c \
-			init_values.c \
-			get_textures.c \
+			init_game.c \
+			init_map.c \
+			init_textures.c \
+			cub3d_utils.c \
 			cleaner.c \
 			parse_map.c \
-			parse_x.c \
+			parse_tile.c \
 			parse_textures.c \
 			parse_color.c \
 			parse_grid.c \

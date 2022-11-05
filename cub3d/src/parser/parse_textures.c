@@ -25,7 +25,7 @@ int parse_textures(char *s, int i, t_map *map)
 	char c2;
 
 	if (ft_strlen(&s[i]) < 2)
-		return (-1);
+		return (1);
 	c1 = s[i];
 	c2 = s[i + 1];
 	if (c1 == 'N' && c2 == 'O')
@@ -39,6 +39,6 @@ int parse_textures(char *s, int i, t_map *map)
 	else if (c1 == 'S' && ft_strchr("0123456789", c2))
 		return (parse_path(s, i + 2, &map->path_textures[c2 - 44], c2 - 44));
 	else
-		return (-1);
+		return (1);
 	return (0);
 }

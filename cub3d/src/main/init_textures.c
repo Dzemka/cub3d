@@ -29,11 +29,11 @@ static int fill_texture(int tex_id, t_game *game)
     return (0);
 }
 
-int get_textures(t_game *game)
+static void get_textures(t_game *game)
 {
-    int y;
-    int tex_id;
-    char *path;
+    int		y;
+    int		tex_id;
+    char	*path;
     t_data_img *img;
 
     tex_id = -1;
@@ -45,15 +45,36 @@ int get_textures(t_game *game)
         img->img = mlx_xpm_file_to_image(game->mlx, path, &img->width,
                                          &img->height);
         if (!img->img)
-            return (1);
+            game_exit("Image error");
         img->addr = mlx_get_data_addr(img->img, &img->bpp, &img->line_length,
                                       &img->endian);
         if (!img->addr)
-            return (1);
-        if (fill_texture(tex_id, game) == 1)
-        {
-            return (1);
-        }
+            game_exit("Image address error");
+        fill_texture(tex_id, game);
     }
-    return (0);
+}
+
+static int malloc_textures(t_game *game)
+{
+    int tex_id;
+
+    game->tex_img = malloc(sizeof(t_data_img *) * (TEX_COUNT + 1));
+    if (!game->tex_img)
+        game_exit("Malloc error\n");
+    game->texture = malloc(sizeof(int *) * (TEX_COUNT + 1));
+    if (!game->texture)
+        game_exit("Malloc error\n");
+    tex_id = -1;
+    while (++tex_id < TEX_COUNT)
+    {
+        game->tex_img[tex_id] = malloc(sizeof(t_data_img));
+        if (!game->tex_img[tex_id])
+            game_exit("Malloc error\n");
+    }
+}
+
+void	init_textures(t_game *game)
+{
+    malloc_textures(game);
+    get_textures(game);
 }

@@ -5,7 +5,6 @@ int main(int argc, char **argv)
 	t_game *game;
 
 	game = init_game(argc, argv);
-	printf("init ok!\n");
 
 	// mlx_mouse_hide(game->mlx, game->window);
 	mlx_mouse_hide();

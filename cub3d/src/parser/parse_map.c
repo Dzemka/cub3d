@@ -2,17 +2,17 @@
 
 static void parse_id(char *s, int i, t_map *map, t_list *tmp)
 {
-	if (parse_textures(s, i, map) == 0)
+	if (parse_textures(s, i, map))
 		return;
-	if (parse_color(s, i, map) == 0)
+	if (parse_color(s, i, map))
 		return;
-	if (!ft_strchr("0123456789", s[i]))
-	{
-		printf("%s : Undefined id\n", s);
-		exit(1);
-	}
 	if (ft_strchr("0123456789", s[i]))
 		map->grid_ptr = tmp;
+	else
+	{
+		printf("%s", s);
+		game_exit(": undefined id");
+	}
 }
 
 static void parse_line(char *s, t_map *map, t_list *tmp)
@@ -32,7 +32,7 @@ static void parse_line(char *s, t_map *map, t_list *tmp)
 		parse_id(s, i, map, tmp);
 }
 
-static void	read_line(t_map *map, int fd, int *read_end)
+static void read_line(t_map *map, int fd, int *read_end)
 {
 	t_list *ptr;
 	char *line;
@@ -41,7 +41,7 @@ static void	read_line(t_map *map, int fd, int *read_end)
 	if (!line)
 	{
 		*read_end = 1;
-		return ;
+		return;
 	}
 	ptr = ft_lstnew(line);
 	if (!ptr)
@@ -59,5 +59,6 @@ int parse_map(t_game *game, int fd)
 		read_line(game->map, fd, &read_end);
 	if (parse_grid(game->map))
 		return (1);
+	ft_lstclear(&game->map->lineList, free);
 	return (0);
 }

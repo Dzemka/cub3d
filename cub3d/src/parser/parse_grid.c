@@ -4,7 +4,7 @@ static int init_sprites(t_game *game)
 {
 	int i;
 
-	game->sprite = malloc(sizeof(t_sprite *));
+	game->sprite = malloc(sizeof(t_sprite *) * (game->map->sprite_count + 1));
 	if (!game->sprite)
 		return (1);
 	i = -1;
@@ -47,7 +47,7 @@ int scan_grid(t_map *map)
 		}
 	}
 	if (map->player_orientation == '\0')
-		return (parse_error_message("No player\n", -1));
+		game_exit("Player must be only one");
 	return (0);
 }
 

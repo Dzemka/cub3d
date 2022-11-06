@@ -7,7 +7,9 @@ static int get_sprite_coord(int x, int y, t_map *map, int *sprite_index)
 	game = map->game;
 	*sprite_index += 1;
 	game->sprite[*sprite_index]->id = map->map_grid[y][x] - 48 + 2;
-	fill_coord(y + 0.5, x + 0.5, &game->sprite[*sprite_index]->coord);
+	game->sprite[*sprite_index]->coord = malloc(sizeof(t_coord));
+	fill_coord(y + 0.5, x + 0.5, game->sprite[*sprite_index]->coord);
+	printf("id %d\n", game->sprite[*sprite_index]->id);
 }
 
 static	int init_tile(int x, int y, t_map *map, int *sprite_index)
@@ -18,9 +20,10 @@ static	int init_tile(int x, int y, t_map *map, int *sprite_index)
 	if (ft_strchr("NSWE", c))
 	{
 		if (map->player_orientation != '\0')
-			return (parse_error_message("Player must be only one\n", -1));
+			game_exit("Player must be only one");
 		map->player_orientation = c;
-		fill_coord(y, x, &map->player_p);
+		map->player_p = malloc(sizeof(t_coord));
+		fill_coord(y, x, map->player_p);
 	}
 	if (ft_strchr("23456789", c))
 		get_sprite_coord(x, y, map, sprite_index);
@@ -60,7 +63,7 @@ static int	check_tile(int x, int y, t_map *map)
 	}
 	if (map->map_grid[y][x] != '1')
 		if (check_around(map, y, x, ft_strlen(map->map_grid[y])))
-			return (parse_error_message("The walls are not closed\n", -1));
+			game_exit("The walls are not closed");
 }
 
 int parse_tile(int x, int y, t_map *map, int *sprite_index)

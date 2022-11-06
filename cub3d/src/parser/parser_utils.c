@@ -1,8 +1,9 @@
 #include <cub3d.h>
 
-int parse_error_message(char *message, int id)
+int parse_exit(char *message, int id)
 {
-	printf("%d\n", id);
+	char	c;
+
 	if (id == NO_TEXTURE)
 		write(1, "Texture with id \"NO\" error: ", 28);
 	else if (id == SO_TEXTURE)
@@ -15,13 +16,18 @@ int parse_error_message(char *message, int id)
 		write(1, "Ambient with id \"F\" error: ", 27);
 	else if (id == CEILLING_COLOR)
 		write(1, "Ambient with id \"C\" error: ", 27);
-	else if (id == 0)
-		write(1, "Sprite texture with id \"S0\" error: ", 36);
+	else if (id > 3 && id <= TEX_COUNT)
+	{
+		c = id + 48 - 4;
+		write(1, "Sprite texture with id \"S", 26);
+		write(1, &c, 1);
+		write(1, "\" error: ", 10);
+	}
 	write(1, message, ft_strlen(message));
-	return (1);
+	exit(1);
 }
 
-void	fill_coord(double y, double x, t_coord *pos)
+void fill_coord(double y, double x, t_coord *pos)
 {
 	pos->x = x;
 	pos->y = y;

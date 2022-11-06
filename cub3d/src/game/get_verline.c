@@ -5,8 +5,8 @@ void get_ray_dir(t_coord *rayDir, int x, t_game *game)
 	double cameraX;
 
 	cameraX = (2 * x / (double)WIDTH - 1.0);
-	fill_coord(game->player.dir.y + game->player.plane.y * cameraX,
-			   game->player.dir.x + game->player.plane.x * cameraX, rayDir);
+	fill_coord(game->player->dir->y + game->player->plane->y * cameraX,
+			   game->player->dir->x + game->player->plane->x * cameraX, rayDir);
 }
 
 void get_delta_dist(t_coord *deltaDist, t_coord rayDir)
@@ -20,22 +20,22 @@ void get_side_dist(t_ray *ray, t_game *game)
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
-		ray->sideDist.x = (game->player.pos.x - ray->map.x) * ray->deltaDist.x;
+		ray->sideDist.x = (game->player->pos->x - ray->map.x) * ray->deltaDist.x;
 	}
 	else
 	{
 		ray->step.x = 1;
-		ray->sideDist.x = (ray->map.x + 1.0 - game->player.pos.x) * ray->deltaDist.x;
+		ray->sideDist.x = (ray->map.x + 1.0 - game->player->pos->x) * ray->deltaDist.x;
 	}
 	if (ray->dir.y < 0)
 	{
 		ray->step.y = -1;
-		ray->sideDist.y = (game->player.pos.y - ray->map.y) * ray->deltaDist.y;
+		ray->sideDist.y = (game->player->pos->y - ray->map.y) * ray->deltaDist.y;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->sideDist.y = (ray->map.y + 1.0 - game->player.pos.y) * ray->deltaDist.y;
+		ray->sideDist.y = (ray->map.y + 1.0 - game->player->pos->y) * ray->deltaDist.y;
 	}
 }
 
@@ -76,7 +76,7 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	ray.test = 0;
 	get_ray_dir(&ray.dir, x, game);
 	get_delta_dist(&ray.deltaDist, ray.dir);
-	fill_coord((int)game->player.pos.y, (int)game->player.pos.x, &ray.map);
+	fill_coord((int)game->player->pos->y, (int)game->player->pos->x, &ray.map);
 	get_side_dist(&ray, game);
 	find_wall(&ray, game->map->map_grid);
 	if (ray.side == 0)
@@ -95,9 +95,9 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	double wallX;
 	int texNum = 0; // number wall id - char to int
 	if (ray.side == 0)
-		wallX = game->player.pos.y + perpWallDist * ray.dir.y;
+		wallX = game->player->pos->y + perpWallDist * ray.dir.y;
 	else
-		wallX = game->player.pos.x + perpWallDist * ray.dir.x;
+		wallX = game->player->pos->x + perpWallDist * ray.dir.x;
 	if (ray.side == 0)
 	{
 		if (ray.dir.x < 0)

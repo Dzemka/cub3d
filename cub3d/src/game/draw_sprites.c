@@ -8,9 +8,10 @@ void get_distance(t_game *game)
 	i = -1;
 	while (++i < game->map->sprite_count)
 	{
-		coord = &game->sprite[i]->coord;
-		game->sprite[i]->distance = (game->player.pos.x - coord->x) * (game->player.pos.x - coord->x) + (game->player.pos.y - coord->y) * (game->player.pos.y - coord->y);
+		coord = game->sprite[i]->coord;
+		game->sprite[i]->distance = (game->player->pos->x - coord->x) * (game->player->pos->x - coord->x) + (game->player->pos->y - coord->y) * (game->player->pos->y - coord->y);
 		game->sprite[i]->order = 0;
+
 	}
 }
 
@@ -97,7 +98,6 @@ void draw_sprites(t_game *game)
 	double start_y;
 	t_coord *coord;
 	t_sprite *sprite_struct;
-	t_list *sprite_ptr;
 
 	int order;
 	int index;
@@ -105,15 +105,15 @@ void draw_sprites(t_game *game)
 	set_sprite_order(game);
 	while (++i < game->map->sprite_count)
 	{
-		index = game->sprite[i]->id;
-		// index = game->sprite[order]->id;
-		// coord = &game->sprite[order]->coord;
 		sprite_struct = game->sprite[i];
+		index = game->sprite[i]->id;
 		// translate sprite position relative camera
 
 		// do order
-		coord = &sprite_struct->coord;
-		fill_coord(coord->y - game->player.pos.y, coord->x - game->player.pos.x, &sprite); // coordinate ratio player
+		coord = sprite_struct->coord;
+
+		fill_coord(coord->y - game->player->pos->y, coord->x - game->player->pos->x, &sprite); // coordinate ratio player
+
 		// do order
 
 		//[plane.x dir.x] -1												[dir.y 	   -dir.x]
@@ -121,16 +121,18 @@ void draw_sprites(t_game *game)
 		//[plane.y dir.y]													[-plane.y plane.x]
 		// determinant matrix
 
-		inv_det = 1.0 / (game->player.plane.x * game->player.dir.y - game->player.dir.x * game->player.plane.y);
+		inv_det = 1.0 / (game->player->plane->x * game->player->dir->y - game->player->dir->x * game->player->plane->y);
+
 		// matrix * vector
 		//[sprite.x	]		[dir.y		-dir.x	]
 		//[			] * det [					]
 		//[sprite.y ]		[-plane.y	plane.x	]
-		transform.x = inv_det * (game->player.dir.y * sprite.x - game->player.dir.x * sprite.y);			//
-																											// multiplication matrix pos sprite to inverse matix for get cross point
-		transform.y = inv_det * ((game->player.plane.y * -1) * sprite.x + game->player.plane.x * sprite.y); //
-		sprite_screen_x = (int)((WIDTH / 2) * (1.0 + transform.x / transform.y));							// coordinate sprite on cameraX
+		transform.x = inv_det * (game->player->dir->y * sprite.x - game->player->dir->x * sprite.y);			//
 
+																											// multiplication matrix pos sprite to inverse matix for get cross point
+		transform.y = inv_det * ((game->player->plane->y * -1) * sprite.x + game->player->plane->x * sprite.y); //
+
+		sprite_screen_x = (int)((WIDTH / 2) * (1.0 + transform.x / transform.y));							// coordinate sprite on cameraX
 		sprite_height = abs((int)((double)HEIGHT / (transform.y))); // height of sprite on monitor plane
 		drawStartY = -sprite_height / 2 + HEIGHT / 2 + game->pitch;
 		drawEndY = sprite_height / 2 + HEIGHT / 2 + game->pitch;

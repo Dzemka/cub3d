@@ -10,7 +10,7 @@ int game_start(t_game *game)
 	int x;
 	int y;
 
-	draw_floor(game);
+	draw_basic(game);
 	draw_walls(game);
 	draw_sprites(game);
 	y = -1;

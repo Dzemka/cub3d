@@ -12,8 +12,8 @@ S5 ./textures/ghost.xpm
 S6 ./textures/hamster.xpm
 S7 ./textures/mario.xpm
 
-F 127,0,127
-C 0,127,127
+F	40,80,120
+C	0,127,127
 
 111111111111111111111111
 111000100000051000000011

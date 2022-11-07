@@ -34,7 +34,7 @@
 			parser_utils.c \
 			game_start.c \
 			draw_walls.c \
-			draw_floor.c \
+			draw_basic.c \
 			draw_sprites.c \
 			get_verline.c \
 			hooks.c \

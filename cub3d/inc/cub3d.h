@@ -18,6 +18,8 @@
 #define TEX_COUNT 12
 #define SPRITE_COUNT 9
 
+#define FOV 0.66
+
 typedef struct s_data_img
 {
 	void *img;
@@ -50,7 +52,6 @@ typedef struct s_ray
 	t_coord	sideDist;
 	t_coord	step;
 	int		side;
-	size_t	test;
 }	t_ray;
 
 typedef struct s_sprite
@@ -115,7 +116,7 @@ int		cleaning_map(t_map **map);
 void	game_clean(t_game **game);
 void	draw_basic(t_game *game);
 void	draw_walls(t_game *game);
-void	draw_floor(t_game *game);
+void	draw_basic(t_game *game);
 void	draw_sprites(t_game *game);
 void	get_verline(int x, t_game *game, int *drawStart, int *drawEnd);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
@@ -131,10 +132,12 @@ int		parse_tile(int x, int y, t_map *map, int *sprite_index);
 
 
 //parser
-int		parse_map(t_game *game, int fd);
+void	parse_map(t_game *game, int fd);
 int		parse_textures(char *s, int pos, t_map *map);
 int		parse_color(char *s, int i, t_map *map);
-int		parse_grid(t_map *map);
+void	parse_grid(t_game *game);
+void	rgb_to_num(char **rgb, int *set_color);
+
 
 //utils
 void	game_exit(char *error_message);

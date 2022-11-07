@@ -49,5 +49,6 @@ void init_map(t_game *game, int argc, char **argv)
 	map_fd = get_fd(argv[1]);
 	get_map_base(game);
 	parse_map(game, map_fd);
+	ft_lstclear(&game->map->lineList, free);
 	close(map_fd);
 }

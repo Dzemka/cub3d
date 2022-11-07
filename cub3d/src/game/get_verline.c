@@ -17,6 +17,7 @@ void get_delta_dist(t_coord *deltaDist, t_coord rayDir)
 
 void get_side_dist(t_ray *ray, t_game *game)
 {
+	fill_coord((int)game->player->pos->y, (int)game->player->pos->x, &ray->map);
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
@@ -64,7 +65,6 @@ void find_wall(t_ray *ray, char **map)
 			hit = 1;
 		count++;
 	}
-	ray->test += count;
 }
 
 void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
@@ -73,10 +73,8 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	double perpWallDist;
 	int line_height;
 
-	ray.test = 0;
 	get_ray_dir(&ray.dir, x, game);
 	get_delta_dist(&ray.deltaDist, ray.dir);
-	fill_coord((int)game->player->pos->y, (int)game->player->pos->x, &ray.map);
 	get_side_dist(&ray, game);
 	find_wall(&ray, game->map->map_grid);
 	if (ray.side == 0)
@@ -84,16 +82,25 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	else
 		perpWallDist = ray.sideDist.y - ray.deltaDist.y;
 	line_height = (int)(HEIGHT / perpWallDist);
-	*drawStart = HEIGHT / 2 - line_height / 2 + game->pitch + (game->posZ / perpWallDist);
+
+	double texY;
+	double step;
+
+	step = (double)TEX_HEIGHT / (double)line_height;
+	texY = 0;
+	*drawStart = HEIGHT / 2 - line_height / 2 + game->pitch;
 	if (*drawStart < 0)
-		*drawStart = 0;
-	*drawEnd = HEIGHT / 2 + line_height / 2 + game->pitch + (game->posZ / perpWallDist);
+	{
+		texY = *drawStart * step * -1;
+			*drawStart = 0;
+	}
+	*drawEnd = HEIGHT / 2 + line_height / 2 + game->pitch;
 	if (*drawEnd >= HEIGHT)
 		*drawEnd = HEIGHT - 1;
 
 	// test
 	double wallX;
-	int texNum = 0; // number wall id - char to int
+	int texNum = 0;
 	if (ray.side == 0)
 		wallX = game->player->pos->y + perpWallDist * ray.dir.y;
 	else
@@ -116,21 +123,36 @@ void get_verline(int x, t_game *game, int *drawStart, int *drawEnd)
 	int texX;
 
 	texX = (int)(wallX * (double)(TEX_WIDTH));
-	if (ray.side == 0 & ray.dir.x > 0)
-		texX = TEX_WIDTH - texX - 1;
-	if (ray.side == 1 & ray.dir.y < 0)
-		texX = TEX_WIDTH - texX - 1;
-	double step = 1.0 * TEX_HEIGHT / line_height;
-	double tex_pos = (*drawStart - game->pitch - (game->posZ / perpWallDist) - HEIGHT / 2 + line_height / 2) * step;
+	// double step = 1.0 * TEX_HEIGHT / line_height;
+	// double tex_pos = (*drawStart - HEIGHT / 2 + line_height / 2 - game->pitch) * step;
+	// double tex_pos = 0;
+	// if (*drawStart < 0)
+	// {
+	// 	tex_pos = ((line_height - HEIGHT) / 2) * step;
+	// 	*drawStart = 0;
+	// }
+	// double texY;
+
+	// texY = 0;
+	// if (*drawStart < 0)
+	// {
+	// 	texY = *drawStart * step * -1;
+	// 	*drawStart = 0;
+	// }
 	int t;
 	t = *drawStart - 1;
 	while (++t < *drawEnd)
 	{
-		int texY = (int)tex_pos & (int)(TEX_HEIGHT - 1);
-		tex_pos += step;
-		game->buffer[t][x] = game->texture[texNum][texY][texX]; //сделать чтобы использовались текстуры разных разрешений
-																// if (ray.side == 0)
-																// game->wall_color = (game->wall_color >> 1) & 8355711;
+		// printf("%d\n", t);
+		// int texY = (int)tex_pos & (int)(TEX_HEIGHT - 1);
+		// if (*drawEnd > HEIGHT - 1)
+		// 	break;
+		if (texY >= 0 && texY < TEX_HEIGHT - 1)
+			game->buffer[t][x] = game->texture[texNum][(int)texY][texX]; //сделать чтобы использовались текстуры разных разрешений
+																		 // if (ray.side == 0)
+																		 // game->wall_color = (game->wall_color >> 1) & 8355711;
+		texY += step;
+		// texY++;
 	}
 	game->zBuffer[x] = perpWallDist;
 	// test

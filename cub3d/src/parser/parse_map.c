@@ -50,15 +50,12 @@ static void read_line(t_map *map, int fd, int *read_end)
 	parse_line(line, map, ptr);
 }
 
-int parse_map(t_game *game, int fd)
+void	parse_map(t_game *game, int fd)
 {
 	int read_end;
 
 	read_end = 0;
 	while (!read_end)
 		read_line(game->map, fd, &read_end);
-	if (parse_grid(game->map))
-		return (1);
-	ft_lstclear(&game->map->lineList, free);
-	return (0);
+	parse_grid(game);
 }

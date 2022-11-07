@@ -32,3 +32,19 @@ void fill_coord(double y, double x, t_coord *pos)
 	pos->x = x;
 	pos->y = y;
 }
+
+void	rgb_to_num(char **rgb, int *set_color)
+{
+	int	i;
+	int	color;
+
+	color = 0;
+	i = -1;
+	while (++i < 3)
+	{
+		color = ft_atoi(rgb[i]);
+		if (color > 255)
+			game_exit("Max RGB code is 255");
+		*set_color += color * pow(256, 2 - i);
+	}
+}

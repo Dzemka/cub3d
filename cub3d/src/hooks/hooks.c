@@ -62,16 +62,13 @@ int move(int keycode, void *arg)
 		game->pitch -= 400 * move_speed;
 		if (game->pitch < -400)
 			game->pitch = -400;
-		// game->posZ = 200;
 	}
 	if (keycode == KEY_UP)
 	{
 		game->pitch += 400 * move_speed;
 		if (game->pitch > 400)
 			game->pitch = 400;
-		// game->posZ = -200;
 	}
-	game_start(game);
 }
 
 int mouse_move(int x, int y, t_game *game)

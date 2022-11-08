@@ -54,6 +54,20 @@ typedef struct s_ray
 	int		side;
 }	t_ray;
 
+typedef struct s_wall_verline
+{
+	t_ray	ray;
+	int		x;
+	double	perpWallDist;
+	int		lineHeight;
+	int		texNum;
+	int		texX;
+	double	texY;
+	int		drawStart;
+	int		drawEnd;
+	double	step;
+} t_wall_verline;
+
 typedef struct s_sprite
 {
 	t_coord	*coord;
@@ -79,13 +93,6 @@ typedef struct s_map
 	int		sprite_count;
 }	t_map;
 
-typedef struct s_tid
-{
-	void	*game;
-	int		num;
-	int		y;
-} t_tid;
-
 typedef struct s_game
 {
 	struct s_map	*map;
@@ -102,7 +109,6 @@ typedef struct s_game
 	int				***sprite_tex;
 	t_data_img		**sprite_img;
 	//test
-	t_tid			**tid;
 	double			pitch;
 	double			posZ;
 	//test
@@ -114,22 +120,18 @@ t_game	*init_game(int argc, char **argv);
 void	init_map(t_game *game, int argc, char **argv);
 int		cleaning_map(t_map **map);
 void	game_clean(t_game **game);
+void	get_perp_wall_dist(t_wall_verline *verline, t_game *game);
+
+
 void	draw_basic(t_game *game);
 void	draw_walls(t_game *game);
 void	draw_basic(t_game *game);
 void	draw_sprites(t_game *game);
-void	get_verline(int x, t_game *game, int *drawStart, int *drawEnd);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
 void	hooks(t_game *game);
 
 
 int		parse_tile(int x, int y, t_map *map, int *sprite_index);
-
-
-// int		init_map(t_map **map, int argc, char **argv);
-// void	player_init(t_game *game);
-// int		init_graphic(t_game *game);
-
 
 //parser
 void	parse_map(t_game *game, int fd);

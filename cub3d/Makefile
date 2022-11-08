@@ -36,7 +36,7 @@
 			draw_walls.c \
 			draw_basic.c \
 			draw_sprites.c \
-			get_verline.c \
+			get_perp_wall_dist.c \
 			hooks.c \
 
 	OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)

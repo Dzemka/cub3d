@@ -68,6 +68,24 @@ typedef struct s_wall_verline
 	double	step;
 } t_wall_verline;
 
+typedef struct s_sprite_draw
+{
+	int			sprite_height;
+	int			sprite_width;
+	int			drawStartX;
+	int			drawEndX;
+	int			drawStartY;
+	int			drawEndY;
+	double		start_tex_y;
+	double		start_tex_x;
+	double		step_y;
+	double		step_x;
+	int			tex_id;
+	double		draw_distance;
+
+} t_sprite_draw;
+
+
 typedef struct s_sprite
 {
 	t_coord	*coord;
@@ -127,6 +145,7 @@ void	draw_basic(t_game *game);
 void	draw_walls(t_game *game);
 void	draw_basic(t_game *game);
 void	draw_sprites(t_game *game);
+void	set_sprite_order(t_game *game);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
 void	hooks(t_game *game);
 

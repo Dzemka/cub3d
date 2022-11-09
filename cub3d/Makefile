@@ -36,6 +36,7 @@
 			draw_walls.c \
 			draw_basic.c \
 			draw_sprites.c \
+			set_sprite_order.c \
 			get_perp_wall_dist.c \
 			hooks.c \
 

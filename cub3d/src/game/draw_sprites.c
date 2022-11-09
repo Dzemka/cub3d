@@ -1,179 +1,86 @@
 #include <cub3d.h>
 
-void get_distance(t_game *game)
+static void	get_sprite_size_on_screen(int i, t_sprite_draw *draw_data, t_game *game)
 {
-	int i;
-	t_coord *coord;
+	t_coord transform;
+	double inv_det;
+	t_coord sprite;
+	int sprite_screen_x;
 
-	i = -1;
-	while (++i < game->map->sprite_count)
+	fill_coord(game->sprite[i]->coord->y - game->player->pos->y, game->sprite[i]->coord->x - game->player->pos->x, &sprite);
+	inv_det = 1.0 / (game->player->plane->x * game->player->dir->y - game->player->dir->x * game->player->plane->y);
+	transform.x = inv_det * (game->player->dir->y * sprite.x - game->player->dir->x * sprite.y);
+	transform.y = inv_det * ((game->player->plane->y * -1) * sprite.x + game->player->plane->x * sprite.y);
+	draw_data->sprite_height = abs((int)((double)HEIGHT / (transform.y)));
+	draw_data->sprite_width = abs((int)(HEIGHT / (transform.y)));
+	sprite_screen_x = (int)((WIDTH / 2) * (1.0 + transform.x / transform.y));
+	draw_data->drawStartY = -draw_data->sprite_height / 2 + HEIGHT / 2 + game->pitch;
+	draw_data->drawEndY = draw_data->sprite_height / 2 + HEIGHT / 2 + game->pitch;
+	if (draw_data->drawEndY >= HEIGHT)
+		draw_data->drawEndY = HEIGHT - 1;
+	draw_data->drawStartX = -draw_data->sprite_width / 2 + sprite_screen_x;
+	draw_data->drawEndX = sprite_screen_x + draw_data->sprite_width / 2;
+	if (draw_data->drawEndX >= WIDTH)
+		draw_data->drawEndX = WIDTH - 1;
+	draw_data->draw_distance = transform.y;
+	draw_data->tex_id = game->sprite[i]->id;
+	draw_data->step_y = (double)(game->tex_img[draw_data->tex_id]->height - 1) / (double)draw_data->sprite_height;
+	draw_data->step_x = (double)game->tex_img[draw_data->tex_id]->width / (double)draw_data->sprite_width;
+}
+
+static void	get_draw_start(int *start_tex_y, double *texX, t_sprite_draw *draw_data)
+{
+	*start_tex_y = 0;
+	if (draw_data->drawStartY < 0)
 	{
-		coord = game->sprite[i]->coord;
-		game->sprite[i]->distance = (game->player->pos->x - coord->x) * (game->player->pos->x - coord->x) + (game->player->pos->y - coord->y) * (game->player->pos->y - coord->y);
-		game->sprite[i]->order = 0;
-
+		*start_tex_y = draw_data->step_y * draw_data->drawStartY * -1;
+		draw_data->drawStartY = 0;
+	}
+	*texX = 0;
+	if (draw_data->drawStartX < 0)
+	{
+		*texX = (double)draw_data->drawStartX * -1 * draw_data->step_x;
+		draw_data->drawStartX = 0;
 	}
 }
 
-void compare_distance(t_sprite **sprite, int pos, t_game *game)
+static void	sprite_to_buffer(t_sprite_draw *draw_data, t_game *game)
 {
-	int i;
-	int order;
-	t_sprite *temp;
+	double texX;
+	double texY;
+	int		y;
+	int		start_tex_y;
 
-	i = -1;
-	order = 0;
-	while (++i < game->map->sprite_count)
+	get_draw_start(&start_tex_y, &texX, draw_data);
+	while (draw_data->drawStartX < draw_data->drawEndX)
 	{
-		if (i != pos)
+		texY = start_tex_y;
+		y = draw_data->drawStartY;
+		if (draw_data->draw_distance >= 0 && draw_data->drawStartX > 0 && draw_data->drawStartX < WIDTH && draw_data->draw_distance < game->zBuffer[draw_data->drawStartX])
 		{
-			if (sprite[pos]->distance < sprite[i]->distance)
-				order++;
-			if (sprite[pos]->distance == sprite[i]->distance && sprite[i]->order != 0)
-				order++;
+			while (y < draw_data->drawEndY)
+			{
+				if (game->texture[draw_data->tex_id][(int)texY][(int)texX] != 16777216)
+					game->buffer[y][draw_data->drawStartX] = game->texture[draw_data->tex_id][(int)texY][(int)texX];
+				y++;
+				texY += draw_data->step_y;
+			}
 		}
+		texX += draw_data->step_x;
+		draw_data->drawStartX++;
 	}
-	sprite[pos]->order = order;
-}
-
-void sort_sprites(t_game *game)
-{
-	int i;
-	int order;
-	t_sprite *temp;
-
-	i = -1;
-	while (++i < game->map->sprite_count)
-		compare_distance(game->sprite, i, game);
-	i = -1;
-	while (++i < game->map->sprite_count)
-	{
-		order = game->sprite[i]->order;
-		if (order != i)
-		{
-			temp = game->sprite[order];
-			game->sprite[order] = game->sprite[i];
-			game->sprite[i] = temp;
-		}
-	}
-}
-
-void set_sprite_order(t_game *game)
-{
-	get_distance(game);
-	sort_sprites(game);
 }
 
 void draw_sprites(t_game *game)
 {
-	int i;
+	t_sprite_draw	draw_data;
+	int				i;
 
-	i = 0;
-
-	double inv_det;
-	t_coord transform;
-
-	int sprite_screen_x;
-
-	int sprite_height;
-
-	int sprite_width;
-
-	int drawStartX;
-	int drawEndX;
-	int drawStartY;
-	int drawEndY;
-
-	int texX;
-	double texY;
-	int y;
-
-	int stripe;
-
-	int d;
-
-	t_coord sprite;
-	int color;
-	double step_y;
-	double start_y;
-	t_coord *coord;
-	t_sprite *sprite_struct;
-
-	int order;
-	int index;
-	i = -1;
 	set_sprite_order(game);
+	i = -1;
 	while (++i < game->map->sprite_count)
 	{
-		sprite_struct = game->sprite[i];
-		index = game->sprite[i]->id;
-		// translate sprite position relative camera
-
-		// do order
-		coord = sprite_struct->coord;
-
-		fill_coord(coord->y - game->player->pos->y, coord->x - game->player->pos->x, &sprite); // coordinate ratio player
-
-		// do order
-
-		//[plane.x dir.x] -1												[dir.y 	   -dir.x]
-		//[				]		= 1 / (plane.x * dir.y - dir.x * plane.y) * [			 	 ]
-		//[plane.y dir.y]													[-plane.y plane.x]
-		// determinant matrix
-
-		inv_det = 1.0 / (game->player->plane->x * game->player->dir->y - game->player->dir->x * game->player->plane->y);
-
-		// matrix * vector
-		//[sprite.x	]		[dir.y		-dir.x	]
-		//[			] * det [					]
-		//[sprite.y ]		[-plane.y	plane.x	]
-		transform.x = inv_det * (game->player->dir->y * sprite.x - game->player->dir->x * sprite.y);			//
-
-																											// multiplication matrix pos sprite to inverse matix for get cross point
-		transform.y = inv_det * ((game->player->plane->y * -1) * sprite.x + game->player->plane->x * sprite.y); //
-
-		sprite_screen_x = (int)((WIDTH / 2) * (1.0 + transform.x / transform.y));							// coordinate sprite on cameraX
-		sprite_height = abs((int)((double)HEIGHT / (transform.y))); // height of sprite on monitor plane
-		drawStartY = -sprite_height / 2 + HEIGHT / 2 + game->pitch;
-		drawEndY = sprite_height / 2 + HEIGHT / 2 + game->pitch;
-		if (drawEndY >= HEIGHT)
-			drawEndY = HEIGHT - 1;
-		sprite_width = abs((int)(HEIGHT / (transform.y))); // width of sprite on monitor plane
-		drawStartX = -sprite_width / 2 + sprite_screen_x;
-		drawEndX = sprite_width / 2 + sprite_screen_x;
-		if (drawStartX < 0)
-			drawStartX = 0;
-		if (drawEndX >= WIDTH)
-			drawEndX = WIDTH - 1;
-		stripe = drawStartX;
-		step_y = (double)(game->tex_img[index]->height - 1) / (double)sprite_height;
-		start_y = 0;
-		if (stripe < WIDTH && stripe >= 0)
-		{
-			y = drawStartY;
-			if (y < 0)
-			{
-				start_y = step_y * y * -1;
-				drawStartY = 0;
-			}
-			while (stripe < drawEndX)
-			{
-				texY = start_y;
-				if (transform.y > 0 && stripe > 0 && stripe < WIDTH && transform.y < game->zBuffer[stripe])
-				{
-					texX = (int)((stripe - (sprite_screen_x - sprite_width / 2)) * game->tex_img[index]->width / sprite_width);
-					y = drawStartY;
-					while (y < drawEndY)
-					{
-						color = game->texture[index][(int)texY][texX];
-						if (color != 16777216)
-							game->buffer[y][stripe] = color;
-						y++;
-						texY += step_y;
-					}
-				}
-				stripe++;
-			}
-		}
+		get_sprite_size_on_screen(i, &draw_data, game);
+		sprite_to_buffer(&draw_data, game);
 	}
 }

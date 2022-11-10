@@ -3,7 +3,7 @@ SO ./textures/purplestone.xpm
 WE ./textures/redbrick.xpm
 EA ./textures/mossy.xpm
 
-S0 ./textures/kj.xpm
+S0 ./textures/guard.xpm
 S1 ./textures/reyna.xpm
 S2 ./textures/barrel.xpm
 S3 ./textures/pillar.xpm

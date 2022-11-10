@@ -1,11 +1,11 @@
 #include <cub3d.h>
 
-static void	get_sprite_size_on_screen(int i, t_sprite_draw *draw_data, t_game *game)
+static void	get_draw_data(int i, t_sprite_draw *draw_data, t_game *game)
 {
-	t_coord transform;
-	double inv_det;
-	t_coord sprite;
-	int sprite_screen_x;
+	t_coord	transform;
+	double	inv_det;
+	t_coord	sprite;
+	int		sprite_screen_x;
 
 	fill_coord(game->sprite[i]->coord->y - game->player->pos->y, game->sprite[i]->coord->x - game->player->pos->x, &sprite);
 	inv_det = 1.0 / (game->player->plane->x * game->player->dir->y - game->player->dir->x * game->player->plane->y);
@@ -80,7 +80,7 @@ void draw_sprites(t_game *game)
 	i = -1;
 	while (++i < game->map->sprite_count)
 	{
-		get_sprite_size_on_screen(i, &draw_data, game);
+		get_draw_data(i, &draw_data, game);
 		sprite_to_buffer(&draw_data, game);
 	}
 }

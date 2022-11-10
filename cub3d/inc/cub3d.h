@@ -92,6 +92,7 @@ typedef struct s_sprite
 	int		id;
 	int		order;
 	double	distance;
+	size_t	frame;
 } t_sprite;
 
 typedef struct s_map

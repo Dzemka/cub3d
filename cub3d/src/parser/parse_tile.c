@@ -9,6 +9,7 @@ static void	get_sprite(int x, int y, t_map *map, int *sprite_index)
 	game->sprite[*sprite_index]->id = map->map_grid[y][x] - 48 + 2;
 	game->sprite[*sprite_index]->coord = malloc(sizeof(t_coord));
 	fill_coord(y + 0.5, x + 0.5, game->sprite[*sprite_index]->coord);
+	game->sprite[*sprite_index]->frame = 0;
 }
 
 static void	init_tile(int x, int y, t_map *map, int *sprite_index)

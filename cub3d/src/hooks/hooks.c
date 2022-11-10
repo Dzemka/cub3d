@@ -81,11 +81,11 @@ int mouse_move(int x, int y, t_game *game)
 	double	oldPlaneX;
 
 	rotate_speed = 0;
-	move_speed = 0.09;
+	move_speed = 50.0 / HEIGHT;
 	if (x < WIDTH / 2)
-		rotate_speed = 0.05;
+		rotate_speed = 50.0 / WIDTH;
 	if (x > WIDTH / 2)
-		rotate_speed = -0.05;
+		rotate_speed = -(50.0 / WIDTH);
 	if (y > HEIGHT / 2)
 		game->pitch -= 400 * move_speed;
 	if (game->pitch < -400)

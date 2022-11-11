@@ -22,8 +22,7 @@ static void	init_tile(int x, int y, t_map *map, int *sprite_index)
 		if (map->player_orientation != '\0')
 			game_exit("Player must be only one");
 		map->player_orientation = c;
-		map->player_p = malloc(sizeof(t_coord));
-		fill_coord(y, x, map->player_p);
+		fill_coord(y, x, &map->player_p);
 	}
 	if (ft_strchr("23456789", c))
 		get_sprite(x, y, map, sprite_index);

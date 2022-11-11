@@ -42,23 +42,23 @@ static void get_player_orientation(t_game *game)
 {
 	if (game->map->player_orientation == 'N')
 	{
-		fill_coord(-1, 0, game->player->dir);
-		fill_coord(0, FOV, game->player->plane);
+		fill_coord(-1, 0, &game->player->dir);
+		fill_coord(0, FOV, &game->player->plane);
 	}
 	else if (game->map->player_orientation == 'W')
 	{
-		fill_coord(0, -1, game->player->dir);
-		fill_coord(-FOV, 0, game->player->plane);
+		fill_coord(0, -1, &game->player->dir);
+		fill_coord(-FOV, 0, &game->player->plane);
 	}
 	else if (game->map->player_orientation == 'S')
 	{
-		fill_coord(1, 0, game->player->dir);
-		fill_coord(0, -FOV, game->player->plane);
+		fill_coord(1, 0, &game->player->dir);
+		fill_coord(0, -FOV, &game->player->plane);
 	}
 	else if (game->map->player_orientation == 'E')
 	{
-		fill_coord(0, 1, game->player->dir);
-		fill_coord(FOV, 0, game->player->plane);
+		fill_coord(0, 1, &game->player->dir);
+		fill_coord(FOV, 0, &game->player->plane);
 	}
 }
 
@@ -67,13 +67,8 @@ static void init_player(t_game *game)
 	game->player = malloc(sizeof(t_player));
 	if (!game->player)
 		game_exit("Malloc_error");
-	game->player->dir = malloc(sizeof(t_coord));
-	game->player->plane = malloc(sizeof(t_coord));
-	if (!game->player->dir || !game->player->plane)
-		game_exit("Malloc error\n");
-	game->player->pos = malloc(sizeof(t_coord));
-	fill_coord(game->map->player_p->y + 0.5, game->map->player_p->x + 0.5, game->player->pos);
-	game->map->map_grid[(int)game->map->player_p->y][(int)game->map->player_p->x] = '0';
+	fill_coord(game->map->player_p.y + 0.5, game->map->player_p.x + 0.5, &game->player->pos);
+	game->map->map_grid[(int)game->map->player_p.y][(int)game->map->player_p.x] = '0';
 	game->pitch = 0;
 	game->posZ = 0;
 	get_player_orientation(game);

@@ -22,9 +22,9 @@ double get_tex_x(t_wall_verline *verline, t_game *game)
 	double wallX;
 
 	if (verline->ray.side == 0)
-		wallX = game->player->pos->y + verline->perpWallDist * verline->ray.dir.y;
+		wallX = game->player->pos.y + verline->perpWallDist * verline->ray.dir.y;
 	else
-		wallX = game->player->pos->x + verline->perpWallDist * verline->ray.dir.x;
+		wallX = game->player->pos.x + verline->perpWallDist * verline->ray.dir.x;
 	wallX -= floor(wallX);
 	verline->texX = (int)(wallX * (double)(game->tex_img[verline->texNum]->width));
 }

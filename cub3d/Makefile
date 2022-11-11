@@ -31,6 +31,7 @@
 			parse_textures.c \
 			parse_color.c \
 			parse_grid.c \
+			parse_enemy.c \
 			parser_utils.c \
 			game_start.c \
 			draw_walls.c \

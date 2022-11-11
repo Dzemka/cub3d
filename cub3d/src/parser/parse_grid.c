@@ -2,10 +2,10 @@
 
 static void scan_grid(t_map *map)
 {
-	int x;
-	int y;
-	size_t len_line;
-	int sprite_index;
+	int		x;
+	int		y;
+	size_t	len_line;
+	int		sprite_index;
 
 	y = -1;
 	sprite_index = -1;
@@ -56,8 +56,8 @@ static void get_sprite_count(char *s, t_map *map)
 
 static int copy_grid(t_map *map)
 {
-	t_list *line_ptr;
-	int y;
+	t_list	*line_ptr;
+	int		y;
 
 	map->height = ft_lstsize(map->grid_ptr);
 	map->map_grid = malloc(sizeof(char *) * (map->height + 1));

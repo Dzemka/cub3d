@@ -18,6 +18,7 @@ static void init_map_values(t_map *map)
 
 static void	get_map_base(t_game *game)
 {
+	int	i;
 
 	game->map = malloc(sizeof(t_map));
 	if (!game->map)
@@ -26,6 +27,9 @@ static void	get_map_base(t_game *game)
 	game->map->path_textures = malloc(sizeof(char *) * (TEX_COUNT + 1));
 	if (!game->map->path_textures)
 		game_exit("Malloc error\n");
+	game->enemy = malloc(sizeof(t_enemy *) * (ENEMY_COUNT + 1));
+	i = -1;
+	game->enemy[ENEMY_COUNT] = NULL;
 	init_map_values(game->map);
 }
 

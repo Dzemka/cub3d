@@ -17,6 +17,7 @@
 #define TEX_HEIGHT 64
 #define TEX_COUNT 12
 #define SPRITE_COUNT 9
+#define ENEMY_COUNT 4
 
 #define FOV 0.66
 
@@ -39,9 +40,9 @@ typedef struct s_coord
 
 typedef struct s_player
 {
-	t_coord	*dir;
-	t_coord	*plane;
-	t_coord	*pos;
+	t_coord	dir;
+	t_coord	plane;
+	t_coord	pos;
 }	t_player;
 
 typedef struct s_ray
@@ -82,7 +83,6 @@ typedef struct s_sprite_draw
 	double		step_x;
 	int			tex_id;
 	double		draw_distance;
-
 } t_sprite_draw;
 
 
@@ -107,10 +107,23 @@ typedef struct s_map
 	char	**map_grid;
 	size_t	width;
 	size_t	height;
-	t_coord	*player_p;
+	t_coord	player_p;
 	char	player_orientation;
 	int		sprite_count;
+	t_sprite	*sprite_base;
 }	t_map;
+
+typedef struct s_enemy
+{
+	int			sprite_index;
+	int			count_actions;
+	int			count_spawn;
+	int			count_walk;
+	int			count_attack;
+	int			count_dead;
+	size_t		frame;
+	int			action;
+} t_enemy;
 
 typedef struct s_game
 {
@@ -124,9 +137,9 @@ typedef struct s_game
 	int				***texture;
 	t_data_img		**tex_img;
 	t_sprite		**sprite;
+	t_enemy			**enemy;
 	double			*zBuffer;
 	int				***sprite_tex;
-	t_data_img		**sprite_img;
 	//test
 	double			pitch;
 	double			posZ;
@@ -157,6 +170,7 @@ int		parse_tile(int x, int y, t_map *map, int *sprite_index);
 void	parse_map(t_game *game, int fd);
 int		parse_textures(char *s, int pos, t_map *map);
 int		parse_color(char *s, int i, t_map *map);
+int		parse_enemy(char *s, int i, t_map *map);
 void	parse_grid(t_game *game);
 void	rgb_to_num(char **rgb, int *set_color);
 

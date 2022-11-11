@@ -6,6 +6,8 @@ static void parse_id(char *s, int i, t_map *map, t_list *tmp)
 		return;
 	if (parse_color(s, i, map))
 		return;
+	if (parse_enemy(s, i, map))
+		return;
 	if (ft_strchr("0123456789", s[i]))
 		map->grid_ptr = tmp;
 	else

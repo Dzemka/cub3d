@@ -19,10 +19,8 @@ char **get_fields(char *s, int i, t_map *map)
 	{
 		j = -1;
 		while (data[i][++j])
-		{
 			if (!ft_isdigit(data[i][j]))
 				game_exit("fields consist only the numbers");
-		}
 	}
 	if (i != 6)
 		game_exit("Enemy  must have 6 fields");
@@ -40,15 +38,20 @@ int parse_enemy(char *s, int i, t_map *map)
 	{
 		data = get_fields(s, i, map);
 		enemy_id = s[i + 1] - 48;
-		game->enemy[enemy_id] = malloc(sizeof(t_enemy));
-		game->enemy[enemy_id]->sprite_index = ft_atoi(data[0]);
-		game->enemy[enemy_id]->count_actions = ft_atoi(data[1]);
-		game->enemy[enemy_id]->count_spawn = ft_atoi(data[2]);
-		game->enemy[enemy_id]->count_walk = ft_atoi(data[3]);
-		game->enemy[enemy_id]->count_attack = ft_atoi(data[4]);
-		game->enemy[enemy_id]->count_dead = ft_atoi(data[5]);
-		game->enemy[enemy_id]->frame = 0;
-		game->enemy[enemy_id]->action = 0;
+		if (map->enemy_base[enemy_id]->sprite_index != -1)
+			game_exit("Enemy declared more than once");
+		map->enemy_base[enemy_id]->sprite_index = ft_atoi(data[0]);
+		map->enemy_base[enemy_id]->count_actions = ft_atoi(data[1]);
+		map->enemy_base[enemy_id]->count_spawn = ft_atoi(data[2]);
+		map->enemy_base[enemy_id]->count_walk = ft_atoi(data[3]);
+		map->enemy_base[enemy_id]->count_attack = ft_atoi(data[4]);
+		map->enemy_base[enemy_id]->count_dead = ft_atoi(data[5]);
+		map->enemy_base[enemy_id]->frame = 0;
+		map->enemy_base[enemy_id]->action = 0;
+		i = -1;
+		while (data[++i])
+			free(data[i]);
+		free(data);
 		return (1);
 	}
 	return (0);

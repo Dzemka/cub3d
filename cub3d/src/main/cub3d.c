@@ -6,7 +6,6 @@ int main(int argc, char **argv)
 
 	game = init_game(argc, argv);
 
-	game_start(game);
 	hooks(game);
 	mlx_loop(game->mlx);
 	return (0);

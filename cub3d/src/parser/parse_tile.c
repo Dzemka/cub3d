@@ -1,18 +1,21 @@
 #include <cub3d.h>
 
-static void	get_sprite(int x, int y, t_map *map, int *sprite_index)
+static void get_object(int x, int y, t_map *map, int *sprite_index)
 {
 	t_game *game;
+	int i;
+	char c;
 
+	c = map->map_grid[y][x];
 	game = map->game;
-	*sprite_index += 1;
-	game->sprite[*sprite_index]->id = map->map_grid[y][x] - 48 + 2;
-	game->sprite[*sprite_index]->coord = malloc(sizeof(t_coord));
-	fill_coord(y + 0.5, x + 0.5, game->sprite[*sprite_index]->coord);
-	game->sprite[*sprite_index]->frame = 0;
+	i = -1;
+	(*sprite_index)++;
+	map->sprite_base[*sprite_index]->id = c - 48 + 2;
+	map->sprite_base[*sprite_index]->coord = malloc(sizeof(t_coord));
+	fill_coord(y + 0.5, x + 0.5, map->sprite_base[*sprite_index]->coord);
 }
 
-static void	init_tile(int x, int y, t_map *map, int *sprite_index)
+static void init_tile(int x, int y, t_map *map, int *sprite_index)
 {
 	char c;
 
@@ -25,7 +28,7 @@ static void	init_tile(int x, int y, t_map *map, int *sprite_index)
 		fill_coord(y, x, &map->player_p);
 	}
 	if (ft_strchr("23456789", c))
-		get_sprite(x, y, map, sprite_index);
+		get_object(x, y, map, sprite_index);
 }
 
 static int check_around(t_map *map, int y, int x, int len_str)
@@ -42,7 +45,7 @@ static int check_around(t_map *map, int y, int x, int len_str)
 			map->map_grid[y + 1][x] == ' ');
 }
 
-static void	check_tile(int x, int y, t_map *map)
+static void check_tile(int x, int y, t_map *map)
 {
 	char c;
 

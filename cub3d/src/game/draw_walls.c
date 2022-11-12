@@ -22,9 +22,9 @@ double get_tex_x(t_wall_verline *verline, t_game *game)
 	double wallX;
 
 	if (verline->ray.side == 0)
-		wallX = game->player->pos.y + verline->perpWallDist * verline->ray.dir.y;
+		wallX = game->player.pos.y + verline->perpWallDist * verline->ray.dir.y;
 	else
-		wallX = game->player->pos.x + verline->perpWallDist * verline->ray.dir.x;
+		wallX = game->player.pos.x + verline->perpWallDist * verline->ray.dir.x;
 	wallX -= floor(wallX);
 	verline->texX = (int)(wallX * (double)(game->tex_img[verline->texNum]->width));
 }
@@ -34,7 +34,7 @@ void fill_verline(int texNum, int texX, int lineHeight, t_game *game, int x, t_w
 	verline->drawStart -= 1;
 	while (++verline->drawStart < verline->drawEnd)
 	{
-		game->buffer[verline->drawStart][x] = game->texture[texNum][(int)verline->texY][texX]; //сделать чтобы использовались текстуры разных разрешений
+		game->buffer[verline->drawStart][x] = game->texture[texNum][(int)verline->texY][texX];
 		verline->texY += verline->step;
 	}
 }
@@ -57,7 +57,7 @@ void get_data_iter(t_wall_verline *verline, t_game *game)
 
 void draw_walls(t_game *game)
 {
-	t_wall_verline verline;
+	t_wall_verline	verline;
 	int x;
 
 	x = -1;

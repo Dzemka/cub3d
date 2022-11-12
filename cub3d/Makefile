@@ -33,12 +33,16 @@
 			parse_grid.c \
 			parse_enemy.c \
 			parser_utils.c \
+			check_map_fill.c \
 			game_start.c \
 			draw_walls.c \
 			draw_basic.c \
 			draw_sprites.c \
+			enemy_draw_setting.c \
 			set_sprite_order.c \
 			get_perp_wall_dist.c \
+			get_start.c \
+			malloc_start.c \
 			hooks.c \
 
 	OBJ = $(SRC:%.c=$(OBJ_DIR)%.o)

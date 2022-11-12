@@ -8,7 +8,7 @@ static void parse_id(char *s, int i, t_map *map, t_list *tmp)
 		return;
 	if (parse_enemy(s, i, map))
 		return;
-	if (ft_strchr("0123456789", s[i]))
+	if (s[i] == '1')
 		map->grid_ptr = tmp;
 	else
 	{
@@ -52,7 +52,7 @@ static void read_line(t_map *map, int fd, int *read_end)
 	parse_line(line, map, ptr);
 }
 
-void	parse_map(t_game *game, int fd)
+void parse_map(t_game *game, int fd)
 {
 	int read_end;
 
@@ -60,4 +60,5 @@ void	parse_map(t_game *game, int fd)
 	while (!read_end)
 		read_line(game->map, fd, &read_end);
 	parse_grid(game);
+	check_map_fill(game);
 }

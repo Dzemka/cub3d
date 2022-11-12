@@ -5,8 +5,8 @@ void get_ray_dir(t_coord *rayDir, int x, t_game *game)
 	double cameraX;
 
 	cameraX = (2 * x / (double)WIDTH - 1.0);
-	fill_coord(game->player->dir.y + game->player->plane.y * cameraX,
-			   game->player->dir.x + game->player->plane.x * cameraX, rayDir);
+	fill_coord(game->player.dir.y + game->player.plane.y * cameraX,
+			   game->player.dir.x + game->player.plane.x * cameraX, rayDir);
 }
 
 void get_delta_dist(t_coord *deltaDist, t_coord rayDir)
@@ -17,26 +17,26 @@ void get_delta_dist(t_coord *deltaDist, t_coord rayDir)
 
 void get_side_dist(t_ray *ray, t_game *game)
 {
-	fill_coord((int)game->player->pos.y, (int)game->player->pos.x, &ray->map);
+	fill_coord((int)game->player.pos.y, (int)game->player.pos.x, &ray->map);
 	if (ray->dir.x < 0)
 	{
 		ray->step.x = -1;
-		ray->sideDist.x = (game->player->pos.x - ray->map.x) * ray->deltaDist.x;
+		ray->sideDist.x = (game->player.pos.x - ray->map.x) * ray->deltaDist.x;
 	}
 	else
 	{
 		ray->step.x = 1;
-		ray->sideDist.x = (ray->map.x + 1.0 - game->player->pos.x) * ray->deltaDist.x;
+		ray->sideDist.x = (ray->map.x + 1.0 - game->player.pos.x) * ray->deltaDist.x;
 	}
 	if (ray->dir.y < 0)
 	{
 		ray->step.y = -1;
-		ray->sideDist.y = (game->player->pos.y - ray->map.y) * ray->deltaDist.y;
+		ray->sideDist.y = (game->player.pos.y - ray->map.y) * ray->deltaDist.y;
 	}
 	else
 	{
 		ray->step.y = 1;
-		ray->sideDist.y = (ray->map.y + 1.0 - game->player->pos.y) * ray->deltaDist.y;
+		ray->sideDist.y = (ray->map.y + 1.0 - game->player.pos.y) * ray->deltaDist.y;
 	}
 }
 

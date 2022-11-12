@@ -13,6 +13,7 @@ static void init_map_values(t_map *map)
 	map->width = 0;
 	map->player_orientation = '\0';
 	map->sprite_count = 0;
+	map->enemy_count = 0;
 	map->grid_ptr = NULL;
 }
 
@@ -27,9 +28,17 @@ static void	get_map_base(t_game *game)
 	game->map->path_textures = malloc(sizeof(char *) * (TEX_COUNT + 1));
 	if (!game->map->path_textures)
 		game_exit("Malloc error\n");
-	game->enemy = malloc(sizeof(t_enemy *) * (ENEMY_COUNT + 1));
+	game->map->enemy_base = malloc(sizeof(t_enemy *) * (ENEMY_COUNT + 1));
+	if (!game->map->enemy_base)
+		game_exit("Malloc error\n");
 	i = -1;
-	game->enemy[ENEMY_COUNT] = NULL;
+	while (++i < ENEMY_COUNT)
+	{
+		game->map->enemy_base[i] = malloc(sizeof(t_enemy));
+		if (!game->map->enemy_base[i])
+			game_exit("Malloc error\n");
+		game->map->enemy_base[i]->sprite_index = -1;
+	}
 	init_map_values(game->map);
 }
 

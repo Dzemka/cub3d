@@ -95,6 +95,18 @@ typedef struct s_sprite
 	size_t	frame;
 } t_sprite;
 
+typedef struct s_enemy
+{
+	int			sprite_index;
+	int			count_actions;
+	int			count_spawn;
+	int			count_walk;
+	int			count_attack;
+	int			count_dead;
+	size_t		frame;
+	int			action;
+} t_enemy;
+
 typedef struct s_map
 {
 	void	*game;
@@ -110,25 +122,15 @@ typedef struct s_map
 	t_coord	player_p;
 	char	player_orientation;
 	int		sprite_count;
-	t_sprite	*sprite_base;
+	int		enemy_count;
+	t_sprite	**sprite_base;
+	t_enemy		**enemy_base;
 }	t_map;
-
-typedef struct s_enemy
-{
-	int			sprite_index;
-	int			count_actions;
-	int			count_spawn;
-	int			count_walk;
-	int			count_attack;
-	int			count_dead;
-	size_t		frame;
-	int			action;
-} t_enemy;
 
 typedef struct s_game
 {
 	struct s_map	*map;
-	t_player		*player;
+	t_player		player;
 	void			*mlx;
 	void			*window;
 	t_data_img		img;
@@ -148,6 +150,8 @@ typedef struct s_game
 
 
 int		game_start(t_game *game);
+void	get_start(t_game *game);
+void	malloc_start(t_game *game);
 t_game	*init_game(int argc, char **argv);
 void	init_map(t_game *game, int argc, char **argv);
 int		cleaning_map(t_map **map);
@@ -162,9 +166,10 @@ void	draw_sprites(t_game *game);
 void	set_sprite_order(t_game *game);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
 void	hooks(t_game *game);
-
+void	enemy_draw_setting(int i, t_sprite_draw *draw_data, t_game *game);
 
 int		parse_tile(int x, int y, t_map *map, int *sprite_index);
+void	check_map_fill(t_game *game);
 
 //parser
 void	parse_map(t_game *game, int fd);

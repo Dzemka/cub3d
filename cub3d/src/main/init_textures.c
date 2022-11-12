@@ -23,6 +23,8 @@ static void fill_texture(int tex_id, t_game *game)
 	while (++y < img->height)
 	{
 		game->texture[tex_id][y] = malloc(sizeof(char *) * (img->width + 1));
+		if (!game->texture[tex_id][y])
+			game_exit("Malloc error\n");
 		game->texture[tex_id][y][img->width] = '\0';
 		x = -1;
 		while (++x < img->width)

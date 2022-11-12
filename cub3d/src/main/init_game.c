@@ -14,9 +14,7 @@ static void get_graphic(t_game *game)
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.line_length, &game->img.endian);
 	if (!game->img.addr)
 		game_exit("Image address error");
-	// mlx_mouse_hide(game->mlx, game->window);
 	mlx_mouse_hide();
-	// mlx_mouse_move(game->mlx, game->window, WIDTH / 2, HEIGHT / 2);
 	mlx_mouse_move(game->window, WIDTH / 2, HEIGHT / 2);
 }
 
@@ -36,42 +34,9 @@ static void init_buffer(t_game *game)
 			game_exit("Malloc error\n");
 	}
 	game->buffer[y + 1] = NULL;
-}
-
-static void get_player_orientation(t_game *game)
-{
-	if (game->map->player_orientation == 'N')
-	{
-		fill_coord(-1, 0, &game->player->dir);
-		fill_coord(0, FOV, &game->player->plane);
-	}
-	else if (game->map->player_orientation == 'W')
-	{
-		fill_coord(0, -1, &game->player->dir);
-		fill_coord(-FOV, 0, &game->player->plane);
-	}
-	else if (game->map->player_orientation == 'S')
-	{
-		fill_coord(1, 0, &game->player->dir);
-		fill_coord(0, -FOV, &game->player->plane);
-	}
-	else if (game->map->player_orientation == 'E')
-	{
-		fill_coord(0, 1, &game->player->dir);
-		fill_coord(FOV, 0, &game->player->plane);
-	}
-}
-
-static void init_player(t_game *game)
-{
-	game->player = malloc(sizeof(t_player));
-	if (!game->player)
-		game_exit("Malloc_error");
-	fill_coord(game->map->player_p.y + 0.5, game->map->player_p.x + 0.5, &game->player->pos);
-	game->map->map_grid[(int)game->map->player_p.y][(int)game->map->player_p.x] = '0';
-	game->pitch = 0;
-	game->posZ = 0;
-	get_player_orientation(game);
+	game->zBuffer = malloc(sizeof(double) * WIDTH);
+	if (!game->zBuffer)
+		game_exit("Mallloc error\n");
 }
 
 t_game *init_game(int argc, char **argv)
@@ -86,7 +51,8 @@ t_game *init_game(int argc, char **argv)
 	init_map(game, argc, argv);
 	get_graphic(game);
 	init_textures(game);
-	init_player(game);
 	init_buffer(game);
+	malloc_start(game);
+	get_start(game);
 	return (game);
 }

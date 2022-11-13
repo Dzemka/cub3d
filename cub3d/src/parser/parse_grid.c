@@ -24,7 +24,7 @@ static void init_sprites(t_game *game)
 {
 	int i;
 
-	game->map->sprite_base = malloc(sizeof(t_sprite *) * (game->map->sprite_count));
+	game->map->sprite_base = malloc(sizeof(t_sprite *) * (game->map->sprite_count + 1));
 	if (!game->map->sprite_base)
 		game_exit("Malloc error\n");
 	i = -1;
@@ -35,6 +35,7 @@ static void init_sprites(t_game *game)
 			game_exit("Malloc error\n");
 		game->map->sprite_base[i]->id = -1;
 	}
+	game->map->sprite_base[game->map->sprite_count] = NULL;
 }
 
 static void get_sprite_count(char *s, t_map *map)

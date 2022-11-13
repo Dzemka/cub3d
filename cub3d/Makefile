@@ -39,6 +39,7 @@
 			draw_basic.c \
 			draw_sprites.c \
 			enemy_draw_setting.c \
+			enemy_actions.c \
 			set_sprite_order.c \
 			get_perp_wall_dist.c \
 			get_start.c \

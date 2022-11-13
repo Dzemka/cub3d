@@ -29,12 +29,12 @@ double get_tex_x(t_wall_verline *verline, t_game *game)
 	verline->texX = (int)(wallX * (double)(game->tex_img[verline->texNum]->width));
 }
 
-void fill_verline(int texNum, int texX, int lineHeight, t_game *game, int x, t_wall_verline *verline)
+void fill_verline(t_game *game, int x, t_wall_verline *verline)
 {
 	verline->drawStart -= 1;
 	while (++verline->drawStart < verline->drawEnd)
 	{
-		game->buffer[verline->drawStart][x] = game->texture[texNum][(int)verline->texY][texX];
+		game->buffer[verline->drawStart][verline->x] = game->texture[verline->texNum][(int)floor(verline->texY)][verline->texX];
 		verline->texY += verline->step;
 	}
 }
@@ -42,7 +42,7 @@ void fill_verline(int texNum, int texX, int lineHeight, t_game *game, int x, t_w
 void get_data_iter(t_wall_verline *verline, t_game *game)
 {
 	verline->lineHeight = (int)(HEIGHT / verline->perpWallDist);
-	verline->step = (double)game->tex_img[verline->texNum]->height / (double)verline->lineHeight;
+	verline->step = ((double)game->tex_img[verline->texNum]->height - 1) / (double)verline->lineHeight;
 	verline->drawStart = HEIGHT / 2 - verline->lineHeight / 2 + game->pitch;
 	verline->texY = 0;
 	if (verline->drawStart < 0)
@@ -57,7 +57,7 @@ void get_data_iter(t_wall_verline *verline, t_game *game)
 
 void draw_walls(t_game *game)
 {
-	t_wall_verline	verline;
+	t_wall_verline verline;
 	int x;
 
 	x = -1;
@@ -68,7 +68,7 @@ void draw_walls(t_game *game)
 		get_tex_num(&verline, game);
 		get_tex_x(&verline, game);
 		get_data_iter(&verline, game);
-		fill_verline(verline.texNum, verline.texX, verline.lineHeight, game, x, &verline);
+		fill_verline(game, x, &verline);
 		game->zBuffer[x] = verline.perpWallDist;
 	}
 }

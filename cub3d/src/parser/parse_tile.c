@@ -4,15 +4,18 @@ static void get_object(int x, int y, t_map *map, int *sprite_index)
 {
 	t_game *game;
 	int i;
-	char c;
+	char tex_id;
 
-	c = map->map_grid[y][x];
+	tex_id = map->map_grid[y][x] - 48 + 4 - 2;
 	game = map->game;
 	i = -1;
 	(*sprite_index)++;
-	map->sprite_base[*sprite_index]->id = c - 48 + 2;
+	map->sprite_base[*sprite_index]->id = tex_id;
+	map->sprite_base[*sprite_index]->main_id = *sprite_index;
 	map->sprite_base[*sprite_index]->coord = malloc(sizeof(t_coord));
 	fill_coord(y + 0.5, x + 0.5, map->sprite_base[*sprite_index]->coord);
+	// if (tex_id == 11 || tex_id == 10 || tex_id == 9 || tex_id == 8)
+	// 	map->map_grid[y][x] = '0';
 }
 
 static void init_tile(int x, int y, t_map *map, int *sprite_index)

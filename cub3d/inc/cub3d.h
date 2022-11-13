@@ -20,6 +20,9 @@
 #define ENEMY_COUNT 4
 
 #define FOV 0.66
+#define ENEMY_MOVE_SPEED 30
+#define ENEMY_ATTACK_SPEED 30
+#define ENEMY_SPAWN_SPEED 5
 
 typedef struct s_data_img
 {
@@ -43,6 +46,7 @@ typedef struct s_player
 	t_coord	dir;
 	t_coord	plane;
 	t_coord	pos;
+	int		healh;
 }	t_player;
 
 typedef struct s_ray
@@ -90,6 +94,7 @@ typedef struct s_sprite
 {
 	t_coord	*coord;
 	int		id;
+	int		main_id;
 	int		order;
 	double	distance;
 	size_t	frame;
@@ -167,6 +172,12 @@ void	set_sprite_order(t_game *game);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
 void	hooks(t_game *game);
 void	enemy_draw_setting(int i, t_sprite_draw *draw_data, t_game *game);
+void	spawn_action(int id, t_game *game);
+void	move_action(t_game *game, int id, int i);
+void	attack_action(t_game *game, int id, int i);
+
+
+
 
 int		parse_tile(int x, int y, t_map *map, int *sprite_index);
 void	check_map_fill(t_game *game);

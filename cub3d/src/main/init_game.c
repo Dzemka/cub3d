@@ -14,8 +14,10 @@ static void get_graphic(t_game *game)
 	game->img.addr = mlx_get_data_addr(game->img.img, &game->img.bpp, &game->img.line_length, &game->img.endian);
 	if (!game->img.addr)
 		game_exit("Image address error");
-	mlx_mouse_hide();
-	mlx_mouse_move(game->window, WIDTH / 2, HEIGHT / 2);
+	// mlx_mouse_hide();
+	// mlx_mouse_move(game->window, WIDTH / 2, HEIGHT / 2);
+	mlx_mouse_hide(game->mlx, game->window);
+	mlx_mouse_move(game->mlx, game->window, WIDTH / 2, HEIGHT / 2);
 }
 
 static void init_buffer(t_game *game)

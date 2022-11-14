@@ -107,7 +107,8 @@ int mouse_move(int x, int y, t_game *game)
 	oldPlaneX = game->player.plane.x;
 	game->player.plane.x = game->player.plane.x * cos(-rotate_speed) - game->player.plane.y * sin(-rotate_speed);
 	game->player.plane.y = oldPlaneX * sin(-rotate_speed) + game->player.plane.y * cos(-rotate_speed);
-	mlx_mouse_move(game->window, WIDTH / 2, HEIGHT / 2);
+	// mlx_mouse_move(game->window, WIDTH / 2, HEIGHT / 2);
+	mlx_mouse_move(game->mlx, game->window, WIDTH / 2, HEIGHT / 2);
 }
 
 void hooks(t_game *game)

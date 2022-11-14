@@ -38,6 +38,7 @@
 			draw_walls.c \
 			draw_basic.c \
 			draw_sprites.c \
+			draw_minimap.c \
 			enemy_draw_setting.c \
 			enemy_actions.c \
 			set_sprite_order.c \

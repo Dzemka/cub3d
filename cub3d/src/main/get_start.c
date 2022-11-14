@@ -50,11 +50,9 @@ static void get_sprites(t_game *game)
 		x = -1;
 		while (game->map->map_grid[y][++x])
 		{
-			printf("%c", game->map->map_grid[y][x]);
 			if (ft_strchr("6789", game->map->map_grid[y][x]))
 				game->map->map_grid[y][x] = '0';
 		}
-		printf("\n");
 	}
 	i = -1;
 	while (++i < game->map->sprite_count)

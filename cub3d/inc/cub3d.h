@@ -168,6 +168,7 @@ void	draw_basic(t_game *game);
 void	draw_walls(t_game *game);
 void	draw_basic(t_game *game);
 void	draw_sprites(t_game *game);
+void	draw_minimap(t_game *game);
 void	set_sprite_order(t_game *game);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
 void	hooks(t_game *game);

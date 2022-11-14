@@ -21,8 +21,10 @@
 
 #define FOV 0.66
 #define ENEMY_MOVE_SPEED 30
+#define ENEMY_WALK_SPEED 30
 #define ENEMY_ATTACK_SPEED 30
-#define ENEMY_SPAWN_SPEED 5
+#define ENEMY_SPAWN_SPEED 80
+#define ENEMY_DEATH_SPEED 50
 
 typedef struct s_data_img
 {
@@ -46,7 +48,7 @@ typedef struct s_player
 	t_coord	dir;
 	t_coord	plane;
 	t_coord	pos;
-	int		healh;
+	int		health;
 }	t_player;
 
 typedef struct s_ray
@@ -92,7 +94,7 @@ typedef struct s_sprite_draw
 
 typedef struct s_sprite
 {
-	t_coord	*coord;
+	t_coord	coord;
 	int		id;
 	int		main_id;
 	int		order;
@@ -110,6 +112,7 @@ typedef struct s_enemy
 	int			count_dead;
 	size_t		frame;
 	int			action;
+	int			health;
 } t_enemy;
 
 typedef struct s_map
@@ -147,6 +150,7 @@ typedef struct s_game
 	t_enemy			**enemy;
 	double			*zBuffer;
 	int				***sprite_tex;
+	int				(*funct)(struct s_game *game);
 	//test
 	double			pitch;
 	double			posZ;
@@ -164,6 +168,8 @@ void	game_clean(t_game **game);
 void	get_perp_wall_dist(t_wall_verline *verline, t_game *game);
 
 
+int		draw_dead_screen(t_game *game);
+int		draw_game(t_game *game);
 void	draw_basic(t_game *game);
 void	draw_walls(t_game *game);
 void	draw_basic(t_game *game);
@@ -176,10 +182,7 @@ void	enemy_draw_setting(int i, t_sprite_draw *draw_data, t_game *game);
 void	spawn_action(int id, t_game *game);
 void	move_action(t_game *game, int id, int i);
 void	attack_action(t_game *game, int id, int i);
-
-
-
-
+void	death_action(t_game *game, int id, int i);
 int		parse_tile(int x, int y, t_map *map, int *sprite_index);
 void	check_map_fill(t_game *game);
 

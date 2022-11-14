@@ -48,6 +48,7 @@ int parse_enemy(char *s, int i, t_map *map)
 		map->enemy_base[enemy_id]->count_dead = ft_atoi(data[5]);
 		map->enemy_base[enemy_id]->frame = 0;
 		map->enemy_base[enemy_id]->action = 0;
+		map->enemy_base[enemy_id]->health = 100;
 		i = -1;
 		while (data[++i])
 			free(data[i]);

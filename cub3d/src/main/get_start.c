@@ -33,7 +33,7 @@ static void get_player_orientation(t_game *game)
 	}
 	fill_coord(game->map->player_p.y + 0.5, game->map->player_p.x + 0.5, &game->player.pos);
 	game->map->map_grid[(int)game->map->player_p.y][(int)game->map->player_p.x] = '0';
-	game->player.healh = 100;
+	game->player.health = 100;
 	game->pitch = 0;
 }
 
@@ -56,15 +56,7 @@ static void get_sprites(t_game *game)
 	}
 	i = -1;
 	while (++i < game->map->sprite_count)
-	{
-		game->sprite[i]->frame = 0;
-		game->sprite[i]->id = game->map->sprite_base[i]->id;
-		game->sprite[i]->order = 0;
-		game->sprite[i]->main_id = game->map->sprite_base[i]->main_id;
-		game->sprite[i]->distance = 0;
-		game->sprite[i]->coord = malloc(sizeof(t_coord));
-		fill_coord(game->map->sprite_base[i]->coord->y, game->map->sprite_base[i]->coord->x, game->sprite[i]->coord);
-	}
+		*game->sprite[i] = *game->map->sprite_base[i];
 }
 
 void get_start(t_game *game)
@@ -72,4 +64,5 @@ void get_start(t_game *game)
 	get_sprites(game);
 	get_enemy(game);
 	get_player_orientation(game);
+	game->funct = &draw_game;
 }

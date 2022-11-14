@@ -3,9 +3,11 @@
 void select_action(t_game *game, int id, t_sprite_draw *draw_data, int i)
 {
 	game->enemy[id]->frame++;
-	if (game->enemy[id]->frame == 100)
+	if (game->enemy[id]->frame == 1000)
 		game->enemy[id]->frame = 0;
-	if (game->sprite[i]->distance < 1)
+	if (game->enemy[id]->health <= 0)
+		 death_action(game, id, i);
+	else if (game->sprite[i]->distance < 1)
 		attack_action(game, id, i);
 	else if (game->enemy[id]->action > game->enemy[id]->count_spawn)
 		move_action(game, id, i);

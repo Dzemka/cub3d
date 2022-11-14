@@ -1,7 +1,7 @@
-NO ./textures/mnstr.xpm
-SO ./textures/purplestone.xpm
-WE ./textures/redbrick.xpm
-EA ./textures/mossy.xpm
+NO ./textures/g_wall.xpm
+SO ./textures/f_wall.xpm
+WE ./textures/file.xpm
+EA ./textures/red_hd_wall.xpm
 
 S0 ./textures/kj.xpm
 S1 ./textures/reyna.xpm
@@ -9,7 +9,7 @@ S2 ./textures/barrel.xpm
 S3 ./textures/pillar.xpm
 S4 ./textures/Zombie.xpm
 S5 ./textures/Gargoyle_v2.xpm
-S6 ./textures/Phantasm.xpm
+S6 ./textures/Phantasm_v2.xpm
 S7 ./textures/Alien_v2.xpm
 
 E0:4:29:9:4:5:10
@@ -17,8 +17,8 @@ E1:5:18:3:5:3:6
 E2:6:19:0:4:5:9
 E3:7:21:8:4:3:5
 
-F 127,0,127
-C 0,127,127
+F 30,30,30
+C 19,15,51
 
 111111111111111111111111
 111000100000051000000011

@@ -8,7 +8,7 @@ void get_distance(t_game *game)
 	i = -1;
 	while (++i < game->map->sprite_count)
 	{
-		coord = game->sprite[i]->coord;
+		coord = &game->sprite[i]->coord;
 		game->sprite[i]->distance = (game->player.pos.x - coord->x) * (game->player.pos.x - coord->x) + (game->player.pos.y - coord->y) * (game->player.pos.y - coord->y);
 		game->sprite[i]->order = 0;
 

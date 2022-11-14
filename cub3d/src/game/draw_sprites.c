@@ -7,7 +7,7 @@ static void get_draw_data(int i, t_sprite_draw *draw_data, t_game *game)
 	t_coord sprite;
 	int sprite_screen_x;
 
-	fill_coord(game->sprite[i]->coord->y - game->player.pos.y, game->sprite[i]->coord->x - game->player.pos.x, &sprite);
+	fill_coord(game->sprite[i]->coord.y - game->player.pos.y, game->sprite[i]->coord.x - game->player.pos.x, &sprite);
 	inv_det = 1.0 / (game->player.plane.x * game->player.dir.y - game->player.dir.x * game->player.plane.y);
 	transform.x = inv_det * (game->player.dir.y * sprite.x - game->player.dir.x * sprite.y);
 	transform.y = inv_det * ((game->player.plane.y * -1) * sprite.x + game->player.plane.x * sprite.y);

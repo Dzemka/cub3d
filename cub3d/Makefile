@@ -24,6 +24,9 @@
 			init_game.c \
 			init_map.c \
 			init_textures.c \
+			init_weapon.c \
+			init_health_frame.c \
+			init_minimap_frame.c \
 			cub3d_utils.c \
 			cleaner.c \
 			parse_map.c \
@@ -32,12 +35,14 @@
 			parse_color.c \
 			parse_grid.c \
 			parse_enemy.c \
+			parse_weapon.c \
 			parser_utils.c \
 			check_map_fill.c \
 			game_start.c \
 			draw_walls.c \
 			draw_basic.c \
 			draw_sprites.c \
+			draw_weapon.c \
 			draw_minimap.c \
 			enemy_draw_setting.c \
 			enemy_actions.c \

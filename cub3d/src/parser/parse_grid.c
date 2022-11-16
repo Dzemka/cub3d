@@ -11,12 +11,12 @@ static void scan_grid(t_map *map)
 	sprite_index = -1;
 	while (++y < map->height)
 	{
-		len_line = ft_strlen(map->map_grid[y]);
-		if (len_line > map->width)
-			map->width = len_line;
 		x = -1;
 		while (map->map_grid[y][++x])
 			parse_tile(x, y, map, &sprite_index);
+		x--;
+		while (++x < map->width)
+			map->map_grid[y][x] = '-';
 	}
 }
 
@@ -54,6 +54,7 @@ static int copy_grid(t_map *map)
 {
 	t_list *line_ptr;
 	int y;
+	int	i;
 
 	map->height = ft_lstsize(map->grid_ptr);
 	map->map_grid = malloc(sizeof(char *) * (map->height + 1));
@@ -63,9 +64,10 @@ static int copy_grid(t_map *map)
 	y = -1;
 	while (++y < map->height)
 	{
-		map->map_grid[y] = ft_strdup(line_ptr->content);
+		map->map_grid[y] = malloc(sizeof(char) * map->width);
 		if (!map->map_grid[y])
 			game_exit("Malloc error");
+		ft_strlcpy(map->map_grid[y], line_ptr->content, map->width);
 		if (ft_strchr(map->map_grid[y], '\t'))
 			game_exit("Map grid can not contain a tab");
 		get_sprite_count(map->map_grid[y], map);

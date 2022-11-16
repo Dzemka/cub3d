@@ -1,48 +1,53 @@
 #include <cub3d.h>
 
+static int select_color(t_game *game, int map_x, int map_y)
+{
+	if (map_y >= 0 && map_y < game->map->height && map_x >= 0 && map_x < game->map->width)
+	{
+		if (game->map->map_grid[(int)map_y][(int)map_x] == '-' || game->map->map_grid[(int)map_y][(int)map_x] == ' ')
+			return (0x1);
+		else if (game->map->map_grid[(int)map_y][(int)map_x] == '1')
+			return (0x480607);
+		else if (game->map->map_grid[(int)map_y][(int)map_x] == '0')
+			return (0x4E5754);
+		else if (ft_strchr("6789", game->map->map_grid[(int)map_y][(int)map_x]))
+			return (0xFF0000);
+		else if (ft_strchr("2345", game->map->map_grid[(int)map_y][(int)map_x]))
+			return (0x00FF00);
+	}
+	else
+		return(0x1);
+}
+
 void draw_minimap(t_game *game)
 {
-    int x;
-    int y;
-    int r;
-    int radius;
-    int c;
-    char *s;
-    char *temp;
-    int center_x;
-    int center_y;
+	int x;
+	int y;
+	double step;
+	double map_x;
+	double map_y;
+	double start;
 
-    c = sqrt(WIDTH * WIDTH + HEIGHT * HEIGHT);
-    center_x = WIDTH / 10;
-    center_y = HEIGHT / 6;
-    y = -1;
-    radius = c / 15;
-    while (++y < HEIGHT)
-    {
-        x = -1;
-        while (++x < WIDTH)
-        {
-            r = (x - center_x) * (x - center_x) + (y - center_y) * (y - center_y);
-            if (r < radius * radius + c / 10 && r > radius * radius - c / 10)
-                ft_pixel_put(&game->img, x, y, 0xFF0000);
-            if ((x == center_x || y == center_y) && r > radius * radius && r < (radius + 10) * (radius + 10))
-                ft_pixel_put(&game->img, x, y, 0x00FF00);
-        }
-    }
-    ft_pixel_put(&game->img, center_x, center_y, 0xFF0000);
-    s = ft_itoa((int)game->player.pos.x);
-    temp = ft_strjoin("x : ", s);
-    mlx_put_image_to_window(game->mlx, game->window, game->img.img, 0, 0);
-    free(s);
-    mlx_string_put(game->mlx, game->window, center_x - 50, center_y + radius + 30, 0xF0F0F0, temp);
-    free(temp);
-    s = ft_itoa((int)game->player.pos.y);
-    temp = ft_strjoin("y : ", s);
-    free(s);
-    mlx_string_put(game->mlx, game->window, center_x + 30,center_y + radius + 30, 0xF0F0F0, temp);
-    free(temp);
-    mlx_string_put(game->mlx, game->window, center_x, center_y - radius - 20, 0x0000FF, "N");
-    mlx_string_put(game->mlx, game->window, center_x, center_y + radius + 20, 0x0000FF, "S");
-    mlx_string_put(game->mlx, game->window, center_x - radius - 15, center_y + 5, 0x0000FF, "W");
-    mlx_string_put(game->mlx, game->window, center_x + radius + 15, center_y + 5, 0x0000FF, "E");
+	map_x = (double)game->player.pos.x - RANGE_MINIMAP / 2.0;
+	map_y = (double)game->player.pos.y - RANGE_MINIMAP / 2.0;
+	start = map_x;
+	step = (double)RANGE_MINIMAP / (double)game->minimap_size;
+	y = -1;
+	while (game->minimap_frame_buffer[++y])
+	{
+		x = -1;
+		map_x = start;
+		while (game->minimap_frame_buffer[y][++x])
+		{
+			if (game->minimap_frame_buffer[y][x] != 16777216)
+			{
+				if (game->minimap_frame_buffer[y][x] == 0x1)
+					game->buffer[y][x] = select_color(game, map_x, map_y);
+				else
+					game->buffer[y][x] = game->minimap_frame_buffer[y][x];
+			}
+			map_x += step;
+		}
+		map_y += step;
+	}
 }

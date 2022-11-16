@@ -81,7 +81,7 @@ void attack_action(t_game *game, int id, int i)
 	if (game->enemy[id]->action > attack_index + game->enemy[id]->count_attack)
 	{
 		game->enemy[id]->action = attack_index;
-		game->player.health -= 1;
+		game->player.health -= ENEMY_DAMAGE;
 		if (game->player.health <= 0)
 			game->funct = &draw_dead_screen;
 	}

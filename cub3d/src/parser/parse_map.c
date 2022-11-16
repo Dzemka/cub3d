@@ -8,6 +8,8 @@ static void parse_id(char *s, int i, t_map *map, t_list *tmp)
 		return;
 	if (parse_enemy(s, i, map))
 		return;
+	if (parse_weapon(s, i, map))
+		return ;
 	if (s[i] == '1')
 		map->grid_ptr = tmp;
 	else
@@ -32,6 +34,8 @@ static void parse_line(char *s, t_map *map, t_list *tmp)
 		return;
 	if (!map->grid_ptr)
 		parse_id(s, i, map, tmp);
+	else if (len > map->width)
+		map->width = len;
 }
 
 static void read_line(t_map *map, int fd, int *read_end)

@@ -34,6 +34,9 @@ static void get_player_orientation(t_game *game)
 	fill_coord(game->map->player_p.y + 0.5, game->map->player_p.x + 0.5, &game->player.pos);
 	game->map->map_grid[(int)game->map->player_p.y][(int)game->map->player_p.x] = '0';
 	game->player.health = 100;
+	game->player.frame = 0;
+	game->player.weapon_action = 0;
+	game->player.attack = 0;
 	game->pitch = 0;
 }
 

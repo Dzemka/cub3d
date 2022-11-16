@@ -54,7 +54,10 @@ t_game *init_game(int argc, char **argv)
 	get_graphic(game);
 	init_textures(game);
 	init_buffer(game);
+	init_health_frame(game);
+	init_minimap_frame(game);
 	malloc_start(game);
 	get_start(game);
+	init_weapon(game);
 	return (game);
 }

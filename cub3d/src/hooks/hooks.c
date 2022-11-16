@@ -115,30 +115,8 @@ int mouse_move(int x, int y, t_game *game)
 
 int mouse_press(int button, int x, int y, t_game *game)
 {
-	int pos_x;
-	int pos_y;
-	int row;
-	int col;
-
-	pos_x = (int)(game->player.pos.x);
-	pos_y = (int)(game->player.pos.y);
-
-	row = -3;
-	while (++row <= 2)
-	{
-		col = -3;
-		while (++col <= 2)
-		{
-			if (pos_y + row > 0 && pos_y < game->map->height && pos_x + col > 0 && pos_x)
-			{
-				if (pos_x + col < ft_strlen(game->map->map_grid[pos_y + row]))
-				{
-					if (ft_strchr("6789", game->map->map_grid[pos_y + row][pos_x + col]))
-						game->enemy[game->map->map_grid[pos_y + row][pos_x + col] - 48 - 6]->health -= 50;
-				}
-			}
-		}
-	}
+	if (button == 1)
+		game->player.attack = 1;
 }
 void hooks(t_game *game)
 {

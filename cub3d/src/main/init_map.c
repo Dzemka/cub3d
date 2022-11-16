@@ -7,6 +7,7 @@ static void init_map_values(t_map *map)
 	i = -1;
 	while (++i <= TEX_COUNT)
 		map->path_textures[i] = NULL;
+	map->path_weapon = NULL;
 	map->floor_color = -1;
 	map->ceiling_color = -1;
 	map->lineList = NULL;
@@ -15,6 +16,7 @@ static void init_map_values(t_map *map)
 	map->sprite_count = 0;
 	map->enemy_count = 0;
 	map->grid_ptr = NULL;
+	map->width = 0;
 }
 
 static void	get_map_base(t_game *game)

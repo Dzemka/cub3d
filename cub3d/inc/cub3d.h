@@ -25,6 +25,9 @@
 #define ENEMY_ATTACK_SPEED 30
 #define ENEMY_SPAWN_SPEED 80
 #define ENEMY_DEATH_SPEED 50
+#define ENEMY_DAMAGE 15
+#define PLAYER_DAMAGE 30
+#define RANGE_MINIMAP 30
 
 typedef struct s_data_img
 {
@@ -49,6 +52,9 @@ typedef struct s_player
 	t_coord	plane;
 	t_coord	pos;
 	int		health;
+	size_t	frame;
+	int		weapon_action;
+	int		attack;
 }	t_player;
 
 typedef struct s_ray
@@ -122,6 +128,7 @@ typedef struct s_map
 	t_list	*grid_ptr;
 	char	**path_textures;
 	char	**path_sprites;
+	char	*path_weapon;
 	int		floor_color;
 	int		ceiling_color;
 	char	**map_grid;
@@ -150,7 +157,13 @@ typedef struct s_game
 	t_enemy			**enemy;
 	double			*zBuffer;
 	int				***sprite_tex;
+	t_data_img		weapon_img;
+	int				**weapon_tex;
+	int				**health_frame_buffer;
+	int				**minimap_frame_buffer;
 	int				(*funct)(struct s_game *game);
+	t_coord			coord_start_hp;
+	int				minimap_size;
 	//test
 	double			pitch;
 	double			posZ;
@@ -163,6 +176,9 @@ void	get_start(t_game *game);
 void	malloc_start(t_game *game);
 t_game	*init_game(int argc, char **argv);
 void	init_map(t_game *game, int argc, char **argv);
+void	init_weapon(t_game *game);
+void	init_health_frame(t_game *game);
+void	init_minimap_frame(t_game *game);
 int		cleaning_map(t_map **map);
 void	game_clean(t_game **game);
 void	get_perp_wall_dist(t_wall_verline *verline, t_game *game);
@@ -174,6 +190,7 @@ void	draw_basic(t_game *game);
 void	draw_walls(t_game *game);
 void	draw_basic(t_game *game);
 void	draw_sprites(t_game *game);
+void	draw_weapon(t_game *game);
 void	draw_minimap(t_game *game);
 void	set_sprite_order(t_game *game);
 void	ft_pixel_put(t_data_img *data, int x, int y, int color);
@@ -191,6 +208,7 @@ void	parse_map(t_game *game, int fd);
 int		parse_textures(char *s, int pos, t_map *map);
 int		parse_color(char *s, int i, t_map *map);
 int		parse_enemy(char *s, int i, t_map *map);
+int		parse_weapon(char *s, int i, t_map *map);
 void	parse_grid(t_game *game);
 void	rgb_to_num(char **rgb, int *set_color);
 

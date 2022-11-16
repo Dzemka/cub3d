@@ -25,7 +25,6 @@ static void check_on_map(t_game *game)
 		if (id >= 8 && id <= 11)
 		{
 			enemy_count++;
-
 			j = -1;
 			while (++j < game->map->sprite_count)
 				if (j != i && game->map->sprite_base[i]->id == game->map->sprite_base[j]->id)
@@ -50,6 +49,8 @@ static void check_textures(t_game *game)
 	while (game->map->path_textures[++i] != NULL);
 	if (i < 12)
 		game_exit("Not enought texture path");
+	if (!game->map->path_weapon)
+		game_exit("Path weapon not declared");
 }
 
 void check_map_fill(t_game *game)

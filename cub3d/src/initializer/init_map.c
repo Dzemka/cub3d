@@ -6,7 +6,7 @@
 /*   By: olugash <olugash@student.21-school.ru>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 07:41:00 by olugash           #+#    #+#             */
-/*   Updated: 2022/11/18 08:19:39 by olugash          ###   ########.fr       */
+/*   Updated: 2022/11/18 22:29:34 by olugash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ static void	get_map_base(t_game *game)
 	if (!game->map->enemy_base)
 		game_exit("Malloc error\n");
 	i = -1;
+	game->map->enemy_base[ENEMY_COUNT] = NULL;
 	while (++i < ENEMY_COUNT)
 	{
 		game->map->enemy_base[i] = malloc(sizeof(t_enemy));

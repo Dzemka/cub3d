@@ -87,7 +87,7 @@ $(NAME)	:	$(OBJ)
 
 $(OBJ_DIR)%.o:%.c $(HEADERS)
 		mkdir -p $(OBJ_DIR)
-		$(CC) -g $(CFLAGS) -c $< -o $@
+		$(CC) $(CFLAGS) -c $< -o $@
 clean	:
 		$(RM) $(OBJ_DIR)
 		$(MAKE) -C $(LIB_DIR) clean

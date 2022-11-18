@@ -1,4 +1,16 @@
-# ifndef KEYCODES_H
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   keycodes.h                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olugash <olugash@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/18 08:02:19 by olugash           #+#    #+#             */
+/*   Updated: 2022/11/18 08:22:22 by olugash          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef KEYCODES_H
 # define KEYCODES_H
 # ifdef __linux__
 #  define KEY_Q 113
@@ -67,4 +79,4 @@
 #  define KEY_ESC 53
 #  define KEY_SHIFT 257
 # endif
-# endif
+#endif

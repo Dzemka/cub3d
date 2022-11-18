@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_grid.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olugash <olugash@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/18 07:52:04 by olugash           #+#    #+#             */
+/*   Updated: 2022/11/18 07:53:01 by olugash          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-static void scan_grid(t_map *map)
+static void	scan_grid(t_map *map)
 {
-	int		x;
-	int		y;
-	size_t	len_line;
+	size_t	x;
+	size_t	y;
 	int		sprite_index;
 
 	y = -1;
@@ -20,65 +31,51 @@ static void scan_grid(t_map *map)
 	}
 }
 
-static void init_sprites(t_game *game)
+static void	malloc_sprites(t_game *game)
 {
-	int i;
+	int	i;
 
-	game->map->sprite_base = malloc(sizeof(t_sprite *) * (game->map->sprite_count + 1));
+	game->map->sprite_base = malloc(sizeof(t_sprite *)
+			* (game->map->sprite_count + 1));
 	if (!game->map->sprite_base)
 		game_exit("Malloc error\n");
+	game->map->sprite_base[game->map->sprite_count] = NULL;
 	i = -1;
 	while (++i < game->map->sprite_count)
 	{
 		game->map->sprite_base[i] = malloc(sizeof(t_sprite));
 		if (!game->map->sprite_base[i])
 			game_exit("Malloc error\n");
-		game->map->sprite_base[i]->id = -1;
-	}
-	game->map->sprite_base[game->map->sprite_count] = NULL;
-}
-
-static void get_sprite_count(char *s, t_map *map)
-{
-	int x;
-
-	x = -1;
-	while (s[++x])
-	{
-		if (ft_strchr("23456789", s[x]))
-			map->sprite_count++;
 	}
 }
 
-static int copy_grid(t_map *map)
+static void	malloc_door_map(t_game *game)
 {
-	t_list *line_ptr;
-	int y;
-	int	i;
+	size_t	i;
+	size_t	j;
 
-	map->height = ft_lstsize(map->grid_ptr);
-	map->map_grid = malloc(sizeof(char *) * (map->height + 1));
-	if (!map->map_grid)
+	game->map->door_map = malloc(sizeof(t_door_map *)
+			* (game->map->height + 1));
+	if (!game->map->door_map)
 		game_exit("Malloc error\n");
-	line_ptr = map->grid_ptr;
-	y = -1;
-	while (++y < map->height)
+	game->map->door_map[game->map->height] = NULL;
+	i = -1;
+	while (++i < game->map->height)
 	{
-		map->map_grid[y] = malloc(sizeof(char) * map->width);
-		if (!map->map_grid[y])
-			game_exit("Malloc error");
-		ft_strlcpy(map->map_grid[y], line_ptr->content, map->width);
-		if (ft_strchr(map->map_grid[y], '\t'))
-			game_exit("Map grid can not contain a tab");
-		get_sprite_count(map->map_grid[y], map);
-		line_ptr = line_ptr->next;
+		game->map->door_map[i]
+			= malloc(sizeof(t_door_map) * (game->map->width + 1));
+		if (!game->map->door_map[i])
+			game_exit("Malloc error\n");
+		j = -1;
+		while (++j < game->map->width)
+			game->map->door_map[i][j].open = 0;
 	}
-	map->map_grid[y] = NULL;
 }
 
-void parse_grid(t_game *game)
+void	parse_grid(t_game *game)
 {
 	copy_grid(game->map);
-	init_sprites(game);
+	malloc_sprites(game);
+	malloc_door_map(game);
 	scan_grid(game->map);
 }

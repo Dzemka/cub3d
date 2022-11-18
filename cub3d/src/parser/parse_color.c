@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_color.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olugash <olugash@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/18 07:50:56 by olugash           #+#    #+#             */
+/*   Updated: 2022/11/18 07:51:20 by olugash          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-static void check_rgb_format(char **rgb, int id)
+static void	check_rgb_format(char **rgb, int id)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (!rgb)
 		game_exit("Get color error");
@@ -25,10 +37,10 @@ static void check_rgb_format(char **rgb, int id)
 		parse_exit("The RGB format consists of 3 numbers\n", id);
 }
 
-static void get_rgb(char *s, int pos, int id, int *color)
+static void	get_rgb(char *s, int pos, int id, int *color)
 {
-	char **rgb;
-	int i;
+	char	**rgb;
+	int		i;
 
 	rgb = ft_split(&s[pos], ',');
 	check_rgb_format(rgb, id);
@@ -39,7 +51,7 @@ static void get_rgb(char *s, int pos, int id, int *color)
 	free(rgb);
 }
 
-static void check_data(char *s, int *pos, int *color, int ambient_id)
+static void	check_data(char *s, int *pos, int *color, int ambient_id)
 {
 	if (*color != -1)
 		parse_exit("ambient color declared more than once\n", ambient_id);
@@ -55,17 +67,14 @@ static void check_data(char *s, int *pos, int *color, int ambient_id)
 		parse_exit("color not found\n", ambient_id);
 }
 
-static void set_color(char *s, int pos, int *color, int ambient_id)
+static void	set_color(char *s, int pos, int *color, int ambient_id)
 {
 	check_data(s, &pos, color, ambient_id);
 	get_rgb(s, pos, ambient_id, color);
 }
 
-// the function returns 1 if the string contains a color and 0 if it does not
-int parse_color(char *s, int i, t_map *map)
+int	parse_color(char *s, int i, t_map *map)
 {
-	int id;
-
 	if (s[i] == 'F')
 		set_color(s, i + 1, &map->floor_color, FLOOR_COLOR);
 	else if (s[i] == 'C')

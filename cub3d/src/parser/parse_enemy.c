@@ -1,9 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_enemy.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olugash <olugash@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/18 07:51:33 by olugash           #+#    #+#             */
+/*   Updated: 2022/11/18 07:51:48 by olugash          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-char **get_fields(char *s, int i, t_map *map)
+char	**get_fields(char *s, int i)
 {
-	char **data;
-	int j;
+	char	**data;
+	int		j;
 
 	if (s[i + 1] == '\0')
 		game_exit("Enemy has no identificator");
@@ -27,16 +39,14 @@ char **get_fields(char *s, int i, t_map *map)
 	return (data);
 }
 
-int parse_enemy(char *s, int i, t_map *map)
+int	parse_enemy(char *s, int i, t_map *map)
 {
-	char **data;
-	int enemy_id;
-	t_game *game;
+	char	**data;
+	int		enemy_id;
 
-	game = map->game;
 	if (s[i] == 'E')
 	{
-		data = get_fields(s, i, map);
+		data = get_fields(s, i);
 		enemy_id = s[i + 1] - 48;
 		if (map->enemy_base[enemy_id]->sprite_index != -1)
 			game_exit("Enemy declared more than once");

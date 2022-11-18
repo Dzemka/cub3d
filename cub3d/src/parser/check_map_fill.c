@@ -1,8 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_map_fill.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: olugash <olugash@student.21-school.ru>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/11/18 07:47:58 by olugash           #+#    #+#             */
+/*   Updated: 2022/11/18 07:50:26 by olugash          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <cub3d.h>
 
-static void check_setting(t_game *game)
+static void	check_setting(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (game->map->enemy_base[++i])
@@ -10,12 +22,12 @@ static void check_setting(t_game *game)
 			game_exit("Enemy setting not declared");
 }
 
-static void check_on_map(t_game *game)
+static void	check_on_map(t_game *game)
 {
-	int i;
-	int j;
-	int enemy_count;
-	int id;
+	int	i;
+	int	j;
+	int	enemy_count;
+	int	id;
 
 	i = -1;
 	enemy_count = 0;
@@ -27,33 +39,33 @@ static void check_on_map(t_game *game)
 			enemy_count++;
 			j = -1;
 			while (++j < game->map->sprite_count)
-				if (j != i && game->map->sprite_base[i]->id == game->map->sprite_base[j]->id)
-					game_exit("There should only be one type of enemy on the map");
+				if (j != i && game->map->sprite_base[i]->id
+					== game->map->sprite_base[j]->id)
+					game_exit("Only one type enemy");
 		}
 	}
 	if (enemy_count != 4)
 		game_exit("Must be 4 enemies on map");
 }
 
-static void check_enemy(t_game *game)
+static void	check_enemy(t_game *game)
 {
 	check_setting(game);
 	check_on_map(game);
 }
 
-static void check_textures(t_game *game)
+static void	check_textures(t_game *game)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	while (game->map->path_textures[++i] != NULL);
-	if (i < 12)
+	while (game->map->path_textures[++i] != NULL)
+		;
+	if (i < TEX_COUNT)
 		game_exit("Not enought texture path");
-	if (!game->map->path_weapon)
-		game_exit("Path weapon not declared");
 }
 
-void check_map_fill(t_game *game)
+void	check_map_fill(t_game *game)
 {
 	if (!game->map->grid_ptr)
 		game_exit("No map");
